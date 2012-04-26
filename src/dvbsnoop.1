@@ -1,0 +1,492 @@
+.TH "dvbsnoop" "1" "" "Rainer Scherg (rasc)" "DVB Analyzer, MPEG Analyzer"
+.SH "Name"
+.br
+dvbsnoop \- DVB and MPEG stream analyzer
+.SH "SYNOPSIS"
+.B dvbsnoop [\-s mode] [options] pid
+
+.B dvbsnoop [\-s mode] [options] \-if filename [pid]
+
+.B dvbsnoop [\-s mode] [options] \-b [pid]   > binary.file
+
+.B dvbsnoop [\-s mode] [options] 
+
+
+.SH "Description"
+.br
+DVBSNOOP is a text based DVB and MPEG stream analyzer for viewing/debugging stream information, e.g. send via digital TV. You may also use dvbsnoop to analyze mpeg compliant streams stored on DVD or other media.  Dvbsnoop analyzes and displays MPEG, DVB, DSM\-CC, MHP, etc. data and structures in human readable form. Possible stream types are TS (tranport streams), PS (program streams), PES (packetized elementary streams) or SECTIONS (service information streams).
+
+DVBSNOOP also has some additional functionallity to analyze receiver (set top box, dvb card) data, bandwidth of a transport stream, pid scan, etc.
+
+Using special network programs like netcat (nc), dvbsnoop may also be used to do remote sniffing and decoding. For post-processing dvbsnoop output, you may use the full range of unix tools and scripting languages (grep, perl, python, mrtg, gnuplot, etc.).
+
+
+.SH "Usage "
+.br
+Dvbsnoop provides an online and offline input and different snoop/decoding modes (see below).
+
+Using dvbsnoop 'online' requires dvb\-api compliant devices (http://www.linuxtv.org) to grab live stream information from e.g. satellite or cable tv or data streams. You will also need DVB compliant hardware (e.g. DVB\-S pci card or a linux based setop box like dbox2 or Dreambox) to receive DVB data streams. To tune into a transponder or frequency, please use a program like 'szap', 'dvbtune' or a DVB-GUI like 'Enigma', 'Neutrino', 'MythTV', 'VDR', etc..
+
+The 'offline' mode enables you to analyze binary stream files (e.g. transport stream files or PES files).
+
+Some options are specific for the selected modes. You may try different combinations of command line options to get best results.
+
+A short FAQ for common questions and example decoding output can be found at
+.I http://dvbsnoop.sourceforge.net.
+.br
+
+
+.SH "Basic Decoding Selection Mode Command Line Options"
+.br
+.TP
+.B \-s [ts|ps|pes|sec|pidscan|bandwidth|signal|feinfo]
+.br
+ Basic snoop mode selection.
+   sec      \= SI mode (SECTIONS)
+   ts       \= transport stream mode
+   ps       \= program stream mode (same as PES mode)
+   pes      \= packetized elementary stream mode,
+               e.g. teletext, audio, video, data
+   pidscan  \= scan and display PIDs on tuned
+               transponder/frequency.
+   bandwith \= bandwidth messurement mode
+               for selected pid.
+   signal   \= display tuner signal reception info.
+   feinfo   \= display tuner data (frontend info).
+   
+The modes 'sec', "ps" or "pes" require the selection of a PID.
+The mode 'ts' requires either a PID specified or the option \-tsraw.
+
+A PID can be specified using octal, decimal or hexadecimal values.
+Examples:  octal: 021, decimal: 17, hexadecimal: 0x11
+
+If \-s option is omitted, default mode is "\-s sec" (Section mode).
+
+
+.SH "General Command Line Options"
+.br
+.TP 
+.B \-help
+.br
+Print help text with command line options.
+.TP 
+.B \-hideproginfo
+Do not print dvbsnoop header (version, etc.).
+
+
+.SH "General Decoding Output Command Line Options"
+.br
+.TP
+.B \-pd \<mode\>
+.br
+Specify print decoding verbose mode. Specify 0 for no output.
+9 will be very verbose. Default is 6.
+.TP
+.B \-npd
+.br
+Same as \-pd 0.
+
+.TP
+.B \-ph \<mode\>
+.br
+Specify print hex putput verbose mode:
+ 0\=no hexdump output, 1\=hex output, 2\=hex line,
+ 3\=ascii line, 4\=alternate hex output. (default is 4) 
+.TP
+.B \-hexdumpbuffer
+.TP
+.B \-nohexdumpbuffer
+.br
+Switch on/off hexdump of stream input buffer. 
+May be used to enhance \-ph option. (e.g. \-ph 4 \-nohexdumpbuffer)
+.TP
+.B \-nph
+.br
+Obsolete, same as \-nohexdumpbuffer.
+
+.TP
+.B \-t\<mode\>
+.br
+Timestamp output mode:
+   \-tf \= full timestamp
+   \-td \= delta timestamp mode,
+   \-tn \= no time stamp.
+
+.TP
+.B \-b
+.br
+Binary output of packets (disables other output).
+Use this option to store raw data in file or chain data to another program.
+   E.g.:  dvbsnoop \-s ts 0x00 \-b > file
+          dvbsnoop \-s pes 0x3FF \-b 
+| ./myprogram 
+
+There might be a file limit on your system (mostly 2 GB) when writing files using '>'.
+
+
+.SH "Device Selection Command Line Options"
+.br
+Dvbsnoop uses default devices, defined by the DVB API.
+On some platforms or if using multiple dvb cards, you may want to override default settings, e.g. to select a different tuner. 
+.TP
+.B \-demux \<device\>
+.br
+Specify \<device\> for demux.
+If not specified, dvbsnoop uses the device specified by the linux  dvb\-api.
+.TP
+.B \-dvr \<device\>
+.br
+Specify \<device\> for dvr.
+If not specified, dvbsnoop uses the device specified by the linux  dvb\-api.
+.TP
+.B \-frontend \<device\>
+.br
+Specify \<device\> for frontend.
+If not specified, dvbsnoop uses the device specified by the linux  dvb\-api.
+.TP
+.B \-adapter \<n\>
+.br
+Specify DVB adapter/card by number <n> (0-9) using default path pattern 
+(e.g. /dev/dvb/adapter1/...). If not specified, dvbsnoop uses the default adapter/card - usually 0.
+.TP
+.B \-devnr \<n\>
+.br
+Specify DVB device number <n> (0-9) on a DVB adapter/card using default path pattern
+(e.g. /dev/dvb/adapt.../demux1). If not specified, dvbsnoop uses the default device number - usually 0.
+
+.TP
+.B \-buffersize \<kb\>
+.br
+Set demux read buffersize in KBytes.
+Default is 0 (use internal default value).
+
+.TP
+.B \-n \<value\>
+.br
+Stop after reading \<value\> packets. Use this to limit the read process.
+Default is 0 (no limit).
+
+.TP
+.B \-if \<file\>
+.br
+Read binary stream data from file instead of the demux device.
+  <file> \= '-' reads from standard input.
+Depending on the decoding mode this might be transport stream, packetized elemtary stream or sections.
+Please aware, that you cannot e.g. use \-s pes or \-s sec on a saved transport stream.
+The decoding/snooping mode has to match the saved stream format!
+
+
+.SH "SECTION Mode (SEC) Specific Command Line Options"
+.br
+The following command line options are special to the 'SECTION' decoding mode:
+.TP
+.B \-s sec
+.br
+Section mode.
+.TP
+.B \-timeout \<ms\>
+.br
+Section read timeout in ms. Default is 0 (no timeout).
+.TP
+.B \-f \<filter\>
+.br
+Filter value for filtering section data e.g. table id's.
+Value may be decimal (49), octal (037) or hexadecimal (0x4F).
+You may use multibyte filters like: 0x4E.01.20.FF
+The filter comprises e.g. 16 bytes covering byte 0 and byte 3..17 in a section,
+thus excluding bytes 1 and 2 (the length field of a section).
+To check the filtervalues use \-pd 9.
+.TP
+.B \-m \<mask\>
+.br
+Mask value to use for filters.
+Value may be decimal (49), octal (037) or hexadecimal (0x4F).
+You may use multibyte filters like: 0xFF.F0.FE.FF
+The filter comprises e.g. 16 bytes covering byte 0 and byte 3..17 in a section,
+thus excluding bytes 1 and 2 (the length field of a section).
+To check the filtervalues use \-pd 9.
+
+.TP
+.B \-N \<value\>
+.br
+Stop after decoding \<value\> packets. Use this to limit the packet decoding process.
+Useful, when reading stream data from file.  \-n limits the read packet process, \-N
+limits the decoding process. Using dvb hardware filters \-n would be the same as \-N.
+Default is 0 (no limit).
+
+.TP
+.B \-crc 
+.br
+Do CRC checking, when reading section data. 
+Default is off. This is only supported, if your DVB hardware/firmware supports CRC checking.
+Remark: Some section types may use Checksum instead of CRC.
+.TP
+.B \-nocrc
+.br
+Don't do hardware/firmware CRC, when reading section data  (default).
+Some DVB sections do not have proper CRC set!
+
+.TP
+.B \-softcrc
+.br
+Do soft CRC checking, when reading section data.
+Hardware/firmware CRC should be preferred. Default is \-nosoftcrc.
+Remark: Some section types may use Checksum instead of CRC.
+.TP
+.B \-nosoftcrc
+.br
+Don't do soft CRC, when reading sections. (default)
+
+.TP
+.B \-spiderpid
+.br
+Snoop referenced section PIDs.
+This option recursivly reads all PIDs referenced by a section. This option also sets number of packets to be read to 1 (sets \-n 1). To read more packets for a pid, use \-n \<count\> after specifying \-spiderpid.
+.TP
+.B \-privateprovider \<id\>
+.br
+Set provider \<id\> string for decoding of special private tables and descriptors. Use \-help to display provider currently supported. If omitted, private data will be displayed as hexdump depending on \-ph option. (If you have information on private data structures, currently not supported by dvbsnoop, please let us know!)
+
+
+.SH "Transport Stream (TS) Mode Specific Command Line Options"
+.br
+The following command line options are special to the 'Transport Stream'  decoding mode:
+.TP
+.B \-s ts
+.br
+Transport Stream mode.
+.TP
+.B \-sync
+.br
+(obsolete as of 1.4.10, \-sync is default. This option enforces software packet sync for TS and PS/PES).
+.TP
+.B \-nosync
+.br
+(obsolete as of 1.4.10).
+
+.TP
+.B \-tssubdecode
+.br
+Sub\-decode SI data (sections) or PS/PES data from transport stream decoding. This reads transport stream packets and tries to decode its content.  Useful to decode PES or SI data from a transport stream file.
+
+.TP
+.B \-tsraw
+.br
+Read full transport stream (all pids).
+Your hardware/firmware has to support this mode.
+
+.TP
+.B \-N \<value\>
+.br
+Stop after decoding \<value\> packets. Use this to limit the packet decoding process.
+Useful, when reading stream data from file.  \-n limits the read packet process, \-N
+limits the decoding process. Using dvb hardware filters \-n would be the same as \-N.
+Default is 0 (no limit).
+
+
+.SH "PES or PS Mode Specific Command Line Options"
+.br
+The following command line options are special to the 'PES' (packetized elementary stream) or 'PS' (program stream) decoding mode:
+.TP
+.B \-s ps
+Program Stream mode.
+.TP
+.B \-s pes
+.br
+Packetized Elementary Stream mode.
+.TP
+.B \-sync
+.br
+(obsolete as of 1.4.10, \-sync is default. This option enforces software packet sync for TS and PS/PES).
+.TP
+.B \-nosync
+.br
+(obsolete as of 1.4.10).
+.TP
+
+
+.SH "PID Scan Mode Specific Command Line Options"
+.br
+The following command line options are special to the 'PID Scan' discovery mode:
+.TP
+.B \-s pidscan
+.br
+Scan PIDs on transponder/frequency.
+.TP
+.B \-maxdmx \<n\>
+.br
+Set maximum use of DMX filters.
+Default is 0 (use all possible filters).
+
+
+.SH "Bandwidth Mode Specific Command Line Options"
+.br
+There are no special command line options for the 'Bandwidth' display mode.
+.TP
+.B \-s bandwidth
+.br
+Determine bandwidth for a dvb stream. This will be done by calculating received
+ts packets in a timeslot.
+
+
+.SH "Signal Mode Specific Command Line Options"
+.br
+There are no special command line options for the 'Signal Strength'  display mode.
+.TP
+.B \-s signal
+.br
+Poll frontend signal status.
+.TP
+.B \-timeout \<ms\>
+.br
+Poll timing in msec. 
+
+
+.SH "Frontend Info Mode Specific Command Line Options"
+.br
+There are no special command line options for the 'Frontend Info' display  mode.
+.TP
+.B \-s feinfo
+.br
+Display frontend information.
+.br
+
+
+.SH "Examples"
+.br
+Examples how to use dvbsnoop:
+.br
+
+Display EPG, 10 sections:
+   dvbsnoop \-s sec \-nph  \-n 10  0x12
+   dvbsnoop \-s sec \-ph 3 \-n 10 -crc  0x12
+
+Display sections tree (1 packet each) using private provider data:
+   dvbsnoop \-s sec \-spiderpid \-privateprovider premiere.de  0x00
+
+Display sections tree (1 packet each) skipping "empty" pids:
+   dvbsnoop \-s sec \-spiderpid \-timeout 15000  0x00
+
+Display PAT transport stream (ts) and do subdecoding of sections and descriptors:
+   dvbsnoop \-s ts \-pd 4 \-tssubdecode \-nph  0x00
+
+Read PES (e.g. Videotext, Video, Audio) stream:
+   dvbsnoop \-s pes 0x28F
+   dvbsnoop \-s pes 0x28F -b > pes.bin.file
+
+Read PS from file and do not show hex dump:
+   dvbsnoop -if hdtv_ps_file.mpg -s ps -ph 0 -nohexdumpbuffer -n 30
+
+Show current signal strength:
+   dvbsnoop \-s signal
+   dvbsnoop \-s signal \-pd 9 \-n 100 -timeout 100
+
+Show bandwidth usage of a PID  0x1FF:
+   dvbsnoop \-s bandwidth \-n 1000 \-pd 2 0x1FF
+   dvbsnoop \-s bandwidth \-buffersize 256 \-n 1000  0x1FF
+
+Do PID scan of a tuned transponder (different display levels):
+   dvbsnoop \-s pidscan \-pd 1
+   dvbsnoop \-s pidscan \-pd 6
+   dvbsnoop \-s pidscan \-pd 9 \-maxdmx 12 
+
+Show frontend info:
+   dvbsnoop \-s feinfo \-pd 9
+
+Try to scan all sections, read 2 packets per PID:
+   dvbsnoop \-nohexdumpbuffer \-spiderpid \-n 2  0x0000
+
+Save 1000 packets of a transport stream to a file:
+   dvbsnoop \-b \-n 1000 \-s ts  0x200  > ts_file.pid0x200.bin
+   dvbsnoop \-b \-n 1000 \-s ts -tsraw  > ts_file.bin
+
+Read transport stream (ts) from file and decode:
+   dvbsnoop \-s ts \-if ts_stream.bin  
+   dvbsnoop \-s ts \-if ts_file.pid0x200.bin   0x200
+
+Simple filter for some PID values, some examples:
+   dvbsnoop \-n 5 \-nph 0x00 | grep \-i "PID: "
+   dvbsnoop \-spiderpid \-nph \-n 10  0x00 | grep \-i "PID: " | sort | uniq
+   dvbsnoop \-s signal \-pd 9 | ./perl-statistics-prog.pl
+   
+Other simple filter examples:
+   dvbsnoop \-s sec \-f 0x4E \-m 0xFF  0x12
+   dvbsnoop \-s sec \-f 0x4E.34.00 \-m 0xFF.FF.0F  0x12
+   dvbsnoop \-s sec \-f 16.00 \-m 255.255  0x12
+   dvbsnoop \-s sec \-nph \-n 5 0x10 | grep \-i "frequency"
+   dvbsnoop \-s ts \-nph 0x100 | grep \-i 'Transport_error\\|^PID'
+
+Selecting devices:
+   dvbsnoop \-s feinfo \-pd 9 \-frontend /dev/dvb/adapter0/frontend1
+   dvbsnoop \-s feinfo \-pd 9 \-adapter 0 -devnr 1
+   dvbsnoop \-s feinfo \-pd 9 \-adapter 2
+
+Sending dvbsnoop data over network, using netcat:
+   dvbsnoop \-s pes 0x28F -b  \|  nc \-q  ServerName 31337
+
+Do remote decoding of dvb data over network using dvbsnoop and netcat:
+  streaming site:
+      dvbsnoop \-s ts 0x0065 \-b  \|  nc \-q  ServerName 31000
+  reveiving site:
+      nc \-l \-p 31000  \|  dvbsnoop \-nph \-s ts \-tssubdecode \-if \-
+
+  You may also use e.g. dvbtools for sending dvb data over a network:
+      dvbstream ....  \-\->  dumprtp \| dvbsnoop \-s ts \-if \-
+
+
+... for more examples and example output of dvbsnoop, please visit http://dvbsnoop.sourceforge.net. 
+
+
+.SH NOTES 
+.br
+dvbsnoop tries to decode all of the data it receives, e.g. if you try
+to decode a video or audio stream in section mode, dvbsnoop may assume
+a section table and will decode the data wrong. In this case the decoding
+will be garbage. Using the '-crc' option should prevent this
+(if supported at the hardware/driver level).
+.br
+.br
+dvbsnoop does not do DVB stream validation.
+dvbsnoop assumes correct DVB streams. Corrupted streams or streams with
+wrong semantics (e.g. incorrect length information) will result in
+wrong decoding output. For this reason, the use of '-crc' options is
+strongly recommended. 
+.br
+.br
+Depending on the firmware of your dvb card, dvbsnoop may not be able to sniff on pids,
+which are occupied by other processes. This is no bug, this is a driver/firmware issue.
+
+
+.SH "SIGNALS"
+dvbsnoop  catches signals to provide smooth program termination.
+   SIGHUP, SIGQUIT and SIGTERM  will terminate dvbsnoop smoothly.
+   SIGABORT will abort at once after flushing buffers.
+   SIGKILL  will just kill down dvbsnoop (OS specific).
+
+
+.SH "BUGS"
+Please check http://dvbsnoop.sourceforge.net for bug reports.
+.br
+Bug reports: http://sourceforge.net/tracker/?group_id=85040
+.br
+
+.SH SEE ALSO
+.BR dvbtune 
+(1),
+.BR dvbstream
+(1).
+.br
+
+
+.SH "Acknowledgments"
+DVBSNOOP was written by Rainer Scherg (rasc).
+.br
+Copyright (c) 2001-2006  Rainer Scherg
+.br
+
+Additional patches and bugfixes/\-reports were provided by members of the tuxbox project \- bringing digital TV to linux based set top boxes (e.g. "dbox2" digital tv receiver) and also by users of dvbsnoop (see the ChangeLog file for credits).
+.br
+.br
+For more information about DVBSNOOP please visit 'http://dvbsnoop.sourceforge.net'.
+
+
