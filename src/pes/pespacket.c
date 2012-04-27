@@ -245,8 +245,6 @@ void decodePS_PES_packet (u_char *b, u_int len, int pid)
 
      indent (+1);
 
-     print_databytes (4, "Sync + id:", b, 4);
-
      switch(stream_id&0x1F) {
      case NAL_IDR:
      case NAL_NONIDR:
@@ -268,12 +266,9 @@ void decodePS_PES_packet (u_char *b, u_int len, int pid)
      case NAL_SEI:
        H264_decodeSEI(4, b, len);
        break;
-
-     default:
-       if (len > 4) {       // sync + stream_id = 4 bytes
-         print_databytes (9, "Bytes (incl. sync + id):", b, len);
-       }
      }
+
+     print_databytes (5, "Bytes (incl. sync + id):", b, len);
 
      indent (-1);
 
