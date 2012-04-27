@@ -23,7 +23,7 @@ $Id: version.h,v 1.20 2007/06/02 12:26:09 rasc Exp $
 #define DVBSNOOP_PROG_VERSION    "dvbsnoop V"PACKAGE_VERSION
 
 
-#define DVBSNOOP_URL         "http://dvbsnoop.sourceforge.net/"
+#define DVBSNOOP_URL         "https://github.com/a4tunado/dvbsnoop"
 #define DVBSNOOP_COPYRIGHT   "(c) 2001-2007  Rainer Scherg  (rasc)"
 
 
