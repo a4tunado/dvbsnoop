@@ -236,10 +236,16 @@ void decodePS_PES_packet (u_char *b, u_int len, int pid)
 
    stream_type = get_StreamFromMem(pid)->stream_type;
 
+   //fprintf (stdout, "-># decodePS_PES_packet: len=%u; pid=%d stream_type=%u\n", len, pid, stream_type);
+
    if (stream_type == 0x1B) { // H264
 
-     stream_id = outBit_S2x_NL(3,"Stream_id: ", b, 27, 5,
-         (char *(*)(u_long))dvbstrPESH264stream_ID );
+     stream_id = outBit_S2x_NL(3,"H.264 NALU: ", b, 27, 5,
+         (char *(*)(u_long))dvbstrPESH264_NALU_ID );
+
+     indent (+1);
+
+     print_databytes (4, "Sync + id:", b, 4);
 
      switch(stream_id&0x1F) {
      case NAL_IDR:
@@ -265,9 +271,12 @@ void decodePS_PES_packet (u_char *b, u_int len, int pid)
 
      default:
        if (len > 4) {       // sync + stream_id = 4 bytes
-         print_databytes (4, "H264 Data (incl. sync + id):", b, len);
+         print_databytes (9, "Bytes (incl. sync + id):", b, len);
        }
      }
+
+     indent (-1);
+
      return; 
    }
 

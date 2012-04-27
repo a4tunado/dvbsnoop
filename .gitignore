@@ -2,6 +2,7 @@
 *.a
 *.so
 .deps
+.*.sw*
 config.*
 Makefile
 build

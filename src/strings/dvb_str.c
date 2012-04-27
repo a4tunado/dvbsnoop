@@ -2430,7 +2430,7 @@ char *dvbstrTS_AdaptationField_TYPE (u_int i)
  ------------------------------------------------------------------------
 */
 
-char *dvbstrPESH264stream_ID (u_int i)
+char *dvbstrPESH264_NALU_ID (u_int i)
 {
   STR_TABLE  Table[] = {
       { 0x00, 0x00,  "unspecified"},
@@ -2459,6 +2459,27 @@ char *dvbstrPESH264stream_ID (u_int i)
 
   return findTableID (Table, i);
 }
+
+
+char *dvbstrPESH264_Slice_ID (u_int i)
+{
+  STR_TABLE  Table[] = {
+      {0x00, 0x00, "P (P slice)"},
+      {0x01, 0x01, "B (B slice)"},
+      {0x02, 0x02, "I (I slice)"},
+      {0x03, 0x03, "SP (SP slice)"},
+      {0x04, 0x04, "SI (SI slice)"},
+      {0x05, 0x05, "P (P slice)"},
+      {0x06, 0x06, "B (B slice)"},
+      {0x07, 0x07, "I (I slice)"},
+      {0x08, 0x08, "SP (SP slice)"},
+      {0x09, 0x09, "SI (SI slice)"},
+      {0x00, 0x00, "NULL"}
+  };
+
+  return findTableID (Table, i);
+}
+
 
 /*
   -- PES Stream_id  ISO 13818-1  2.4.3.6

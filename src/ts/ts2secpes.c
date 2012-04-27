@@ -250,7 +250,7 @@ void ts2SecPes_subdecode (u_char *b, int len, u_int opt_pid)
     u_int  continuity_counter;		
     u_int  adaptation_field_control;
 
- 
+ //fprintf(stdout,  "-># ts2SecPes_subdecode: len=%d, opt_pid=%u\n", len, opt_pid);
 
  pid				 = getBits (b, 0,11,13);
 
@@ -386,6 +386,7 @@ int  ts2SecPes_LastPacketReadSubdecode_Output (void)
 //
 void ts2SecPes_Output_subdecode (u_int overleap_bytes)
 {
+     //fprintf(stdout, "-># ts2SecPes_Output_subdecode: tsd.status=%u, overleap_bytes=%u\n", tsd.status, overleap_bytes);
 
      indent (+1);
      out_NL (3);
@@ -402,8 +403,7 @@ void ts2SecPes_Output_subdecode (u_int overleap_bytes)
 
      out_nl (3,"=====================================================");
 
-
-     if (tsd.status != TSD_no_error) {
+     if (tsd.status != TSD_no_error && tsd.status != TSD_pid_change) { // $$$ FIXME Can we really ignore pid change ???
    	char *s = "";
 
 	switch (tsd.status) {
