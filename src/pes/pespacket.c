@@ -238,6 +238,11 @@ void decodePS_PES_packet (u_char *b, u_int len, int pid)
 
    //fprintf (stdout, "-># decodePS_PES_packet: len=%u; pid=%d stream_type=%u\n", len, pid, stream_type);
 
+   if (stream_type == 0) {
+      out_nl (3, "!!! Can not find stream type for PID = %d (0x%x) (PMT was not received yet)!!!\n", pid, pid);
+      return;
+   }
+
    if (stream_type == 0x1B) { // H264
 
      stream_id = outBit_S2x_NL(3,"H.264 NALU: ", b, 27, 5,
