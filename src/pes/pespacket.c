@@ -233,6 +233,28 @@ void decodePS_PES_packet (u_char *b, u_int len, int pid)
  }
  out_nl (3,"Packet_start_code_prefix: 0x%06lx",packet_start_code_prefix);
 
+ stream_id = b[3];
+
+ // -- decode PES packet header
+ if (stream_id >= 0xE0 && stream_id <= 0xEF) {
+
+   int xlen = PES_packet_length = outBit_Sx_NL (3, "PES_packet_length: ", b, 32, 16);
+   b   += 6;
+   len -= 6;
+
+   if ((PES_packet_length==0) && ((stream_id & 0xF0)==0xE0)) {
+       out_nl (3," ==> unbound video elementary stream... \n");
+       xlen = len;    // PES len field == 0, use read packet len
+   }
+   if (xlen > 0) {
+       indent (+1);
+       PES_decode_std (b, xlen, stream_id);
+       indent (-1);
+   }
+
+   return;
+ }
+
 
    stream_type = get_StreamFromMem(pid)->stream_type;
 
@@ -243,8 +265,9 @@ void decodePS_PES_packet (u_char *b, u_int len, int pid)
       return;
    }
 
-   if (stream_type == 0x1B) { // H264
+   if (stream_type == 0x1B) { // H.264
 
+     // -- H.264 NALU
      stream_id = outBit_S2x_NL(3,"H.264 NALU: ", b, 27, 5,
          (char *(*)(u_long))dvbstrPESH264_NALU_ID );
 
@@ -427,22 +450,22 @@ void decodePS_PES_packet (u_char *b, u_int len, int pid)
 	// case 0xFD		// extended_stream_id
 	// case 0xFE		// reserved data stream
 	
-	default:
-		{
-		   int xlen = PES_packet_length;
+	//default:
+	//	{
+	//	   int xlen = PES_packet_length;
 
- 		   if ((PES_packet_length==0) && ((stream_id & 0xF0)==0xE0)) {
-			 out_nl (3," ==> unbound video elementary stream... \n");
-			 xlen = len;	// PES len field == 0, use read packet len
- 		   }
-		   if (xlen > 0) {
-			indent (+1);
-			PES_decode_std (b, xlen, stream_id);
-			indent (-1);
-		   }
+ 	//	   if ((PES_packet_length==0) && ((stream_id & 0xF0)==0xE0)) {
+	//		 out_nl (3," ==> unbound video elementary stream... \n");
+	//		 xlen = len;	// PES len field == 0, use read packet len
+ 	//	   }
+	//	   if (xlen > 0) {
+	//		indent (+1);
+	//		PES_decode_std (b, xlen, stream_id);
+	//		indent (-1);
+	//	   }
 
-		}
-		break;
+	//	}
+	//	break;
 
    } // switch
 
