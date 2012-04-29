@@ -236,7 +236,8 @@ void decodePS_PES_packet (u_char *b, u_int len, int pid)
  stream_id = b[3];
 
  // -- decode PES packet header
- if (stream_id >= 0xE0 && stream_id <= 0xEF) {
+ if ((stream_id >= 0xC0 && stream_id <= 0xDF) // audio PES
+     || (stream_id >= 0xE0 && stream_id <= 0xEF)) { // video PES
 
    int xlen = PES_packet_length = outBit_Sx_NL (3, "PES_packet_length: ", b, 32, 16);
    b   += 6;
