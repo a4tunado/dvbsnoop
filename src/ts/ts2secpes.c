@@ -90,15 +90,15 @@ checks for continuity errors, etc. and decode in TS enclosed sections/pes packet
 
 
 
-#define TS_SUBDEC_BUFFER   (128*1024)
+#define TS_SUBDEC_BUFFER   (512*1024)
 enum  { TSD_no_error = 0, TSD_output_done,
 	TSD_no_pui, TSD_error, TSD_continuity_error,
-	TSD_scrambled_error, TSD_pid_change, TSD_mem_error};
+	TSD_scrambled_error, TSD_mem_error};
 
 
 typedef struct _TS_SUBDEC {
 	int	mem_handle;
-	int	pid;
+    int pid;
 	int     status;			// content is invalid?
 	int     continuity_counter;	// 4 bit max !!
 	int     packet_counter;
@@ -106,9 +106,17 @@ typedef struct _TS_SUBDEC {
 } TS_SUBDEC;
 
 
-static  TS_SUBDEC  tsd;
+static TS_SUBDEC tsds[MAX_PID+1];
 
-
+static TS_SUBDEC* get_TSD(int pid) {
+  TS_SUBDEC* tsd = &tsds[pid];
+  if (tsd->mem_handle < 0) { // memory is not allocated yet
+    if ((tsd->mem_handle = packetMem_acquire (TS_SUBDEC_BUFFER)) < 0) {
+      tsd->status = TSD_mem_error;
+    }
+  }
+  return tsd;
+}
 
 //------------------------------------------------------------ 
 
@@ -118,13 +126,17 @@ static  TS_SUBDEC  tsd;
 //
 int ts2SecPesInit (void)
 {
-  tsd.mem_handle = packetMem_acquire (TS_SUBDEC_BUFFER);
-  tsd.pid = -1;
-  tsd.status = TSD_no_pui;
-  tsd.continuity_counter = -1;
-  tsd.packet_counter = 0;
-  tsd.payload_length = 0;
-  return tsd.mem_handle;
+  int i;
+  for (i = 0; i < sizeof(tsds)/sizeof(TS_SUBDEC); ++i) {
+    TS_SUBDEC* tsd = &tsds[i]; 
+    tsd->mem_handle = -1;
+    tsd->pid = i;
+    tsd->status = TSD_no_pui;
+    tsd->continuity_counter = -1;
+    tsd->packet_counter = 0;
+    tsd->payload_length = 0;
+  }
+  return 0;
 }
 
 
@@ -135,7 +147,13 @@ int ts2SecPesInit (void)
 //
 void ts2SecPesFree (void)
 {
-  packetMem_free (tsd.mem_handle);
+  int i;
+  for (i = 0; i < sizeof(tsds)/sizeof(TS_SUBDEC); ++i) {
+    TS_SUBDEC* tsd = &tsds[i];
+    if (tsd->mem_handle >= 0) {
+      packetMem_free (tsd->mem_handle);
+    }
+  }
 }
 
 
@@ -150,17 +168,17 @@ void ts2SecPesFree (void)
 int ts2SecPes_AddPacketStart (int pid, int cc, u_char *b, u_int len)
 {
     int l;
-
+    TS_SUBDEC* tsd = get_TSD(pid);
 
     // -- duplicate packet ?
-    if ((pid == tsd.pid) && (cc == tsd.continuity_counter)) {
+    if ((pid == tsd->pid) && (cc == tsd->continuity_counter)) {
 	    return 1;
     }
 
-    tsd.status = TSD_no_error;
-    tsd.pid = pid;
-    tsd.continuity_counter = cc;
-    tsd.packet_counter = 1;
+    tsd->status = TSD_no_error;
+    tsd->pid = pid;
+    tsd->continuity_counter = cc;
+    tsd->packet_counter = 1;
 
     // -- Save PES/PS or SECTION length information of incoming packet
     // -- set 0 for unspecified length
@@ -185,12 +203,12 @@ int ts2SecPes_AddPacketStart (int pid, int cc, u_char *b, u_int len)
 // -- $$$ code modification mark (1) end
 //
 
-    tsd.payload_length = l;
+    tsd->payload_length = l;
 
 
-    packetMem_clear (tsd.mem_handle);
-    if (! packetMem_add_data (tsd.mem_handle,b,len)) {
-	tsd.status = TSD_mem_error;
+    packetMem_clear (tsd->mem_handle);
+    if (! packetMem_add_data (tsd->mem_handle,b,len)) {
+	tsd->status = TSD_mem_error;
 	return 0;
     }
     
@@ -200,30 +218,25 @@ int ts2SecPes_AddPacketStart (int pid, int cc, u_char *b, u_int len)
 
 int ts2SecPes_AddPacketContinue (int pid, int cc, u_char *b, u_int len)
 {
+    TS_SUBDEC* tsd = get_TSD(pid);
 
     // -- duplicate packet?  (this would be ok, due to ISO13818-1)
-    if ((pid == tsd.pid) && (cc == tsd.continuity_counter)) {
+    if ((pid == tsd->pid) && (cc == tsd->continuity_counter)) {
 	    return 1;
     }
 
-    // -- pid change in stream? (without packet start)
-    // -- This is currently not supported   $$$ TODO
-    if ((tsd.status == TSD_no_error) && (pid != tsd.pid)) {
-	tsd.status = TSD_pid_change;
-    }
-
     // -- discontinuity error in packet ?
-    if ((tsd.status == TSD_no_error) && (cc != (++tsd.continuity_counter%16))) {
-	tsd.status = TSD_continuity_error;
+    if ((tsd->status == TSD_no_error) && (cc != (++tsd->continuity_counter%16))) {
+	tsd->status = TSD_continuity_error;
     }
 
-    tsd.continuity_counter = cc;
+    tsd->continuity_counter = cc;
 
-    if (tsd.status == TSD_no_error) {
-	if (!packetMem_add_data (tsd.mem_handle,b,len) ) {
-		tsd.status = TSD_mem_error;
+    if (tsd->status == TSD_no_error) {
+	if (!packetMem_add_data (tsd->mem_handle,b,len) ) {
+		tsd->status = TSD_mem_error;
 	} else {
-    		tsd.packet_counter++;
+    		tsd->packet_counter++;
 	  	return 1;
 	}
     }
@@ -250,9 +263,13 @@ void ts2SecPes_subdecode (u_char *b, int len, u_int opt_pid)
     u_int  continuity_counter;		
     u_int  adaptation_field_control;
 
+    TS_SUBDEC* tsd = NULL;
+
  //fprintf(stdout,  "-># ts2SecPes_subdecode: len=%d, opt_pid=%u\n", len, opt_pid);
 
  pid				 = getBits (b, 0,11,13);
+
+ tsd = get_TSD(pid);
 
  // -- filter pid?
  if (opt_pid >= 0 && opt_pid <= MAX_PID) {
@@ -293,7 +310,7 @@ void ts2SecPes_subdecode (u_char *b, int len, u_int opt_pid)
 
 	// -- oerks, this we cannot use
 	if (transport_scrambling_control || transport_error_indicator) {
-		tsd.status = TSD_scrambled_error;
+		tsd->status = TSD_scrambled_error;
 		return;
 	}
 
@@ -307,7 +324,7 @@ void ts2SecPes_subdecode (u_char *b, int len, u_int opt_pid)
 		if (SI_offset) {
 		  ts2SecPes_AddPacketContinue (pid, continuity_counter, b+1, (u_long)SI_offset);
 		  // -- because re-add data below, we have to fake cc
-		  tsd.continuity_counter--;
+		  tsd->continuity_counter--;
 		}
 
 		// $$$ TODO: here we have a flaw, when pointer != 0, we do not display the new 
@@ -317,8 +334,8 @@ void ts2SecPes_subdecode (u_char *b, int len, u_int opt_pid)
 
 		// -- output data of prev. collected packets
 		// -- if not already decoded or length was unspecified
-     		if ((tsd.status != TSD_output_done) && packetMem_length(tsd.mem_handle))  {
-			ts2SecPes_Output_subdecode (SI_offset);
+     		if ((tsd->status != TSD_output_done) && packetMem_length(tsd->mem_handle))  {
+			ts2SecPes_Output_subdecode (SI_offset, tsd->pid);
 		}
 
 		// -- first buffer data (also "old" prior to "pointer" offset...)
@@ -345,13 +362,13 @@ void ts2SecPes_subdecode (u_char *b, int len, u_int opt_pid)
 // $$$ Remark: this routine is obsolete and in fact does nothing,
 //             due to code modification mark (1)
 //
-int  ts2SecPes_checkAndDo_PacketSubdecode_Output (void)
+int  ts2SecPes_checkAndDo_PacketSubdecode_Output (u_int pid)
 {
-
+    TS_SUBDEC* tsd = &tsds[pid];
 	// -- already read all data? decode & output data...
-	if ( (tsd.payload_length) && (tsd.payload_length <= packetMem_length(tsd.mem_handle)) ) {
-     		if (tsd.status != TSD_output_done) {
-			ts2SecPes_Output_subdecode (0);
+	if ( (tsd->payload_length) && (tsd->payload_length <= packetMem_length(tsd->mem_handle)) ) {
+     		if (tsd->status != TSD_output_done) {
+			ts2SecPes_Output_subdecode (0, tsd->pid);
 			return 1;
 		}
 	}
@@ -368,11 +385,13 @@ int  ts2SecPes_checkAndDo_PacketSubdecode_Output (void)
 //
 int  ts2SecPes_LastPacketReadSubdecode_Output (void)
 {
-
-     	if (tsd.status != TSD_output_done) {
-		ts2SecPes_Output_subdecode (0);
-		return 1;
-	}
+    int i;
+    for (i = 0; i < sizeof(tsds)/sizeof(TS_SUBDEC); ++i) {
+      TS_SUBDEC* tsd = &tsds[i];
+      if (tsd->mem_handle >= 0 && tsd->status != TSD_output_done) {
+		ts2SecPes_Output_subdecode (0, tsd->pid);
+	  }
+    }
 	return 0;
 }
 
@@ -384,17 +403,18 @@ int  ts2SecPes_LastPacketReadSubdecode_Output (void)
 // --  overleap_bytes: !=0 indicator how many bytes are from the "next" packet
 // --                  (pointer!=0)
 //
-void ts2SecPes_Output_subdecode (u_int overleap_bytes)
+void ts2SecPes_Output_subdecode (u_int overleap_bytes, u_int pid)
 {
+     TS_SUBDEC* tsd = get_TSD(pid);
      //fprintf(stdout, "-># ts2SecPes_Output_subdecode: tsd.status=%u, overleap_bytes=%u\n", tsd.status, overleap_bytes);
 
      indent (+1);
      out_NL (3);
-     if (tsd.pid > MAX_PID) {
-     	out_nl (3,"TS sub-decoding (%d packet(s)):", tsd.packet_counter);
+     if (tsd->pid > MAX_PID) {
+     	out_nl (3,"TS sub-decoding (%d packet(s)):", tsd->packet_counter);
      } else {
      	out_nl (3,"TS sub-decoding (%d packet(s) stored for PID 0x%04x):",
-			tsd.packet_counter,tsd.pid & 0xFFFF);
+			tsd->packet_counter,tsd->pid & 0xFFFF);
      }
      
      if (overleap_bytes) {
@@ -403,15 +423,14 @@ void ts2SecPes_Output_subdecode (u_int overleap_bytes)
 
      out_nl (3,"=====================================================");
 
-     if (tsd.status != TSD_no_error && tsd.status != TSD_pid_change) { // $$$ FIXME Can we really ignore pid change ???
+     if (tsd->status != TSD_no_error) {
    	char *s = "";
 
-	switch (tsd.status) {
+	switch (tsd->status) {
 	   case TSD_error:  		s = "unknown packet error"; break;
 	   case TSD_no_pui:  		s = "no data collected, no payload start"; break;
 	   case TSD_continuity_error:  	s = "packet continuity error"; break;
 	   case TSD_scrambled_error:  	s = "packet scrambled or packet error"; break;
-	   case TSD_pid_change:  	s = "PID change in TS stream"; break;
 	   case TSD_mem_error:  	s = "subdecoding buffer (allocation) error"; break;
 	   case TSD_output_done:  	s = "[data already displayed (this should never happen)]"; break;
 	}
@@ -421,8 +440,8 @@ void ts2SecPes_Output_subdecode (u_int overleap_bytes)
    	u_char *b;
 	u_int  len;
 
-	b   = packetMem_buffer_start (tsd.mem_handle);
-	len = (u_int) packetMem_length (tsd.mem_handle);
+	b   = packetMem_buffer_start (tsd->mem_handle);
+	len = (u_int) packetMem_length (tsd->mem_handle);
 
 	if (b && len) {
 
@@ -431,14 +450,14 @@ void ts2SecPes_Output_subdecode (u_int overleap_bytes)
 	    if (b[0]==0x00 && b[1]==0x00 && b[2]==0x01) {
 
 		out_nl (3,"TS contains PES/PS stream...");
-		ts2ps_pes_multipacket (b, len, tsd.pid);
+		ts2ps_pes_multipacket (b, len, tsd->pid);
 
 	    } else {
 		int pointer = b[0]+1;
 		b += pointer;
 
 		out_nl (3,"TS contains Section...");
-		ts2sec_multipacket (b, len-pointer, tsd.pid);
+		ts2sec_multipacket (b, len-pointer, tsd->pid);
 
 	    }
 
@@ -452,7 +471,7 @@ void ts2SecPes_Output_subdecode (u_int overleap_bytes)
      out_NL (3);
      out_NL (3);
      indent (-1);
-     tsd.status = TSD_output_done;
+     tsd->status = TSD_output_done;
 }
 
 

@@ -176,7 +176,7 @@ void processTS_packet (u_int pid, long pkt_nr, u_char *b, int len)
           out_NL (3);
           if (opt->ts_subdecode) {
              // -- check if stored packet(s) length is sufficient for output
-	     ts2SecPes_checkAndDo_PacketSubdecode_Output();
+	     ts2SecPes_checkAndDo_PacketSubdecode_Output(pid);
           }
 
        }

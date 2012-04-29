@@ -51,18 +51,7 @@ typedef struct _PACKET_MEM_DATA {
 } PACKET_MD;
 
 
-static PACKET_MD  pmd[] = {
-	{ NULL,  0UL, 0UL },
-	{ NULL,  0UL, 0UL },
-	{ NULL,  0UL, 0UL },
-	{ NULL,  0UL, 0UL }
-};
-
-
-
-
-
-
+static PACKET_MD  pmd[MAX_PID+1] = {NULL,};
 
 //
 // -- acquire and initialize packet storage
