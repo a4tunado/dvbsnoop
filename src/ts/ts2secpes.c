@@ -348,6 +348,20 @@ void ts2SecPes_subdecode (u_char *b, int len, u_int opt_pid)
 
 	}
 
+    // -- subdecode section if we already have enough data
+    if (tsd->status != TSD_output_done) {
+        u_char* b = packetMem_buffer_start (tsd->mem_handle);
+        u_int len = (u_int) packetMem_length (tsd->mem_handle);
+        if (b && len && !(b[0]==0x00 && b[1]==0x00 && b[2]==0x01)) {
+            u_int sect_len;
+            u_int pointer = b[0]+1;
+            b += pointer;
+            sect_len = ((b[1] & 0x0F) << 8) + b[2] + 3; // sect size  (getBits)
+            if (sect_len <= len) {
+                ts2SecPes_Output_subdecode(0, tsd->pid);
+            }
+        }
+    }
  }
 
 }
