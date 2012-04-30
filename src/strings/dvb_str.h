@@ -206,6 +206,7 @@ char *dvbstrTS_ScramblingCtrl_TYPE (u_int id);
 
 char *dvbstrPESH264_NALU_ID(u_int id);
 char *dvbstrPESH264_Slice_ID(u_int id);
+char *dvbstrH264_Profile_IDC(u_int idc);
 
 char *dvbstrPESstream_ID(u_int id);
 char *dvbstrPESstream_ID_Extension (u_int i);    // 2004-08-11 H.222.0 AMD2

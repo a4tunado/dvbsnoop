@@ -1,6 +1,8 @@
 #ifndef __MPEG4_VIDEO__
 #define __MPEG4_VIDEO__
 
+#include "dvbsnoop.h"
+
 enum { 	NAL_UNSPECIFIED = 0x00
   , NAL_NONIDR = 0x01
   , NAL_IDR = 0x05

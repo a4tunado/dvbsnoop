@@ -2480,6 +2480,22 @@ char *dvbstrPESH264_Slice_ID (u_int i)
   return findTableID (Table, i);
 }
 
+char *dvbstrH264_Profile_IDC (u_int i) 
+{
+  STR_TABLE  Table[] = {
+	  {44, 44, "CAVLC 4:4:4 Intra profile"},
+      {66, 66, "Baseline profile"},
+      {77, 77, "Main profile"},
+      {88, 88, "Extended profile"},
+      {100, 100, "High 10 Intra profile"},
+      {110, 110, "High 10 Intra profile"},
+      {122, 122, "High 4:2:2 profile"},
+      {244, 244, "High 4:4:4 Predictive profile"},
+      {0x00, 0x00, "NULL"}
+  };
+
+  return findTableID (Table, i);
+}
 
 /*
   -- PES Stream_id  ISO 13818-1  2.4.3.6

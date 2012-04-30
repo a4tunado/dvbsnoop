@@ -266,15 +266,21 @@ void decodePS_PES_packet (u_char *b, u_int len, int pid)
       return;
    }
 
-   if (stream_type == 0x1B) { // H.264
+   // -- H.264 NALU
+   if (stream_type == 0x1B) {
 
-     // -- H.264 NALU
+     u_char nal_ref_idc = getBits(b, 0, 25, 2);
+     out_SB_NL(3, "nal_ref_idc: ", nal_ref_idc);
+
      stream_id = outBit_S2x_NL(3,"H.264 NALU: ", b, 27, 5,
          (char *(*)(u_long))dvbstrPESH264_NALU_ID );
 
+     b += 4;
+     len -= 4;
+
      indent (+1);
 
-     switch(stream_id&0x1F) {
+     switch(stream_id) {
      case NAL_IDR:
      case NAL_NONIDR:
        H264_decodeSlice(4, b, len);
