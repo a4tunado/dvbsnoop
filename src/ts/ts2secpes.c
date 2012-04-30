@@ -539,10 +539,10 @@ void  ts2ps_pes_multipacket (u_char *b, int len, u_int pid)
 		// we are on packet start:  b[0..2] =  0x000001
 
 		pkt_len = 0;
-		if (b[3] >0xBC) {			// has length field?
-			pkt_len = (b[4]<<8) + b[5];	// PES packet size... (getBits)
-			if (pkt_len) pkt_len += 6;	// not 0? get total length
-		}
+		//if (b[3] >0xBC) {			// has length field?
+		//	pkt_len = (b[4]<<8) + b[5];	// PES packet size... (getBits)
+		//	if (pkt_len) pkt_len += 6;	// not 0? get total length
+		//}
 
 
 		if (pkt_len == 0) {			// unbound stream?, seek next pkt
