@@ -239,17 +239,17 @@ void decodePS_PES_packet (u_char *b, u_int len, int pid)
  if ((stream_id >= 0xC0 && stream_id <= 0xDF) // audio PES
      || (stream_id >= 0xE0 && stream_id <= 0xEF)) { // video PES
 
-   int xlen = PES_packet_length = outBit_Sx_NL (3, "PES_packet_length: ", b, 32, 16);
+   PES_packet_length = outBit_Sx_NL (3, "PES_packet_length: ", b, 32, 16);
+
    b   += 6;
    len -= 6;
 
    if ((PES_packet_length==0) && ((stream_id & 0xF0)==0xE0)) {
        out_nl (3," ==> unbound video elementary stream... \n");
-       xlen = len;    // PES len field == 0, use read packet len
    }
-   if (xlen > 0) {
+   if (len > 0) {
        indent (+1);
-       PES_decode_std (b, xlen, stream_id);
+       PES_decode_std (b, len, stream_id);
        indent (-1);
    }
 
