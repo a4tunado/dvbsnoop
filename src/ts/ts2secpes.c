@@ -103,6 +103,7 @@ typedef struct _TS_SUBDEC {
 	int     continuity_counter;	// 4 bit max !!
 	int     packet_counter;
 	int	payload_length;		// total length of PES or SECTION to be read, 0 = unspecified
+	long pkt_nr;  // start packet number
 } TS_SUBDEC;
 
 
@@ -165,7 +166,7 @@ void ts2SecPesFree (void)
 // -- add TS data 
 // -- return: 0 = fail
 //
-int ts2SecPes_AddPacketStart (int pid, int cc, u_char *b, u_int len)
+int ts2SecPes_AddPacketStart (long pkt_nr, int pid, int cc, u_char *b, u_int len)
 {
     int l;
     TS_SUBDEC* tsd = get_TSD(pid);
@@ -179,6 +180,7 @@ int ts2SecPes_AddPacketStart (int pid, int cc, u_char *b, u_int len)
     tsd->pid = pid;
     tsd->continuity_counter = cc;
     tsd->packet_counter = 1;
+    tsd->pkt_nr = pkt_nr;
 
     // -- Save PES/PS or SECTION length information of incoming packet
     // -- set 0 for unspecified length
@@ -254,7 +256,7 @@ int ts2SecPes_AddPacketContinue (int pid, int cc, u_char *b, u_int len)
 // -- check TS buffer and push data to sub decoding buffer
 // -- on new packet start, output old packet data
 //
-void ts2SecPes_subdecode (u_char *b, int len, u_int opt_pid)
+void ts2SecPes_subdecode (u_char *b, int len, long pkt_nr, u_int opt_pid)
 {
     u_int  transport_error_indicator;		
     u_int  payload_unit_start_indicator;		
@@ -339,7 +341,7 @@ void ts2SecPes_subdecode (u_char *b, int len, u_int opt_pid)
 		}
 
 		// -- first buffer data (also "old" prior to "pointer" offset...)
-		ts2SecPes_AddPacketStart (pid, continuity_counter, b, (u_long)len);
+		ts2SecPes_AddPacketStart (pkt_nr, pid, continuity_counter, b, (u_long)len);
 
 	} else {
 
@@ -348,20 +350,6 @@ void ts2SecPes_subdecode (u_char *b, int len, u_int opt_pid)
 
 	}
 
-    // -- subdecode section if we already have enough data
-    if (tsd->status != TSD_output_done) {
-        u_char* b = packetMem_buffer_start (tsd->mem_handle);
-        u_int len = (u_int) packetMem_length (tsd->mem_handle);
-        if (b && len && !(b[0]==0x00 && b[1]==0x00 && b[2]==0x01)) {
-            u_int sect_len;
-            u_int pointer = b[0]+1;
-            b += pointer;
-            sect_len = ((b[1] & 0x0F) << 8) + b[2] + 3; // sect size  (getBits)
-            if (sect_len <= len) {
-                ts2SecPes_Output_subdecode(0, tsd->pid);
-            }
-        }
-    }
  }
 
 }
@@ -379,13 +367,23 @@ void ts2SecPes_subdecode (u_char *b, int len, u_int opt_pid)
 int  ts2SecPes_checkAndDo_PacketSubdecode_Output (u_int pid)
 {
     TS_SUBDEC* tsd = &tsds[pid];
-	// -- already read all data? decode & output data...
-	if ( (tsd->payload_length) && (tsd->payload_length <= packetMem_length(tsd->mem_handle)) ) {
-     		if (tsd->status != TSD_output_done) {
-			ts2SecPes_Output_subdecode (0, tsd->pid);
-			return 1;
-		}
-	}
+
+    // -- subdecode section if we already have enough data
+    if (tsd->status != TSD_output_done) {
+        u_char* b = packetMem_buffer_start (tsd->mem_handle);
+        u_int len = (u_int) packetMem_length (tsd->mem_handle);
+        if (b && len && !(b[0]==0x00 && b[1]==0x00 && b[2]==0x01)) {
+            u_int sect_len;
+            u_int pointer = b[0]+1;
+            b += pointer;
+            sect_len = ((b[1] & 0x0F) << 8) + b[2] + 3; // sect size  (getBits)
+            if (sect_len <= len) {
+                ts2SecPes_Output_subdecode(0, tsd->pid);
+                return 1;
+            }
+        }
+    }
+
 	return 0;
 }
 
@@ -425,10 +423,10 @@ void ts2SecPes_Output_subdecode (u_int overleap_bytes, u_int pid)
      indent (+1);
      out_NL (3);
      if (tsd->pid > MAX_PID) {
-     	out_nl (3,"TS sub-decoding (%d packet(s)):", tsd->packet_counter);
+     	out_nl (3,"TS sub-decoding (%d packet(s) from %08lu):", tsd->packet_counter, tsd->pkt_nr);
      } else {
-     	out_nl (3,"TS sub-decoding (%d packet(s) stored for PID 0x%04x):",
-			tsd->packet_counter,tsd->pid & 0xFFFF);
+     	out_nl (3,"TS sub-decoding (%d packet(s) from %08lu stored for PID 0x%04x):",
+			tsd->packet_counter,tsd->pkt_nr,tsd->pid & 0xFFFF);
      }
      
      if (overleap_bytes) {
