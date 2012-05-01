@@ -1,4 +1,25 @@
 
+This is a branch of dvbsnoop with H.264 support
+===============================================
+
+http://github.com/a4tunado/dvbsnoop/
+
+Installation:
+=============
+
+  You can compile this branch with CMAKE http://www.cmake.org/
+
+  From the source root execute the following commands:
+
+  mkdir build
+  cd build
+  cmake ..
+  make
+
+
+Pleae find original README below.
+
+
 dvbsnoop   - an open source DVB/MPEG stream analyzer
 ====================================================
 
