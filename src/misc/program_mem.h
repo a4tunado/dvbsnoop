@@ -3,21 +3,20 @@
 
 #include "dvbsnoop.h"
 
-typedef struct _TS_PROGRAM TS_PROGRAM;
-typedef struct _TS_STREAM TS_STREAM;
-
+typedef struct _TS_PROGRAM* TS_PROGRAM_P;
+typedef struct _TS_STREAM* TS_STREAM_P;
 
 typedef struct _TS_STREAM {
     u_int elementary_PID;
     u_int stream_type;
-    TS_PROGRAM* program;
-    TS_STREAM* next;
+    TS_PROGRAM_P program;
+    TS_STREAM_P next;
 } TS_STREAM;
 
 typedef struct _TS_PROGRAM {
     u_int PMT_PID;
     u_int program_number;
-    TS_STREAM* stream;
+    TS_STREAM_P stream;
 } TS_PROGRAM;
 
 TS_PROGRAM* reset_ProgramMem(u_int PMT_PID, u_int program_number);
