@@ -311,10 +311,15 @@ void ts2SecPes_subdecode (u_char *b, int len, long pkt_nr, u_int opt_pid)
 	// -- payload buffering/decoding
 
 	// -- oerks, this we cannot use
-	if (transport_scrambling_control || transport_error_indicator) {
+	if (/*transport_scrambling_control || */transport_error_indicator) {
 		tsd->status = TSD_scrambled_error;
 		return;
 	}
+
+    // -- fillup scrambled data
+    if (transport_scrambling_control) {
+        int i; for (i = 0; i < len; ++i) b[i] = 0xCA;
+    }
 
 	// -- if payload_start, check PES/SECTION
 	if (payload_unit_start_indicator) {
