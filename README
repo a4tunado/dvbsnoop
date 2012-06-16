@@ -9,7 +9,7 @@ Installation:
 
   You can compile this branch with CMAKE http://www.cmake.org/
 
-  From the source root execute the following commands:
+  From the source root path execute the following commands:
 
   mkdir build
   cd build
@@ -17,7 +17,7 @@ Installation:
   make
 
 
-Pleae find original README below.
+Please find original README below.
 
 
 dvbsnoop   - an open source DVB/MPEG stream analyzer
