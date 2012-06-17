@@ -275,8 +275,8 @@ void decodePS_PES_packet (u_char *b, u_int len, int pid)
      stream_id = outBit_S2x_NL(3,"H.264 NALU: ", b, 27, 5,
          (char *(*)(u_long))dvbstrPESH264_NALU_ID );
 
-     b += 4;
-     len -= 4;
+     //b += 4;
+     //len -= 4;
 
      indent (+1);
 
