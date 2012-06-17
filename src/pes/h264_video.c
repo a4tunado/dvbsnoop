@@ -478,25 +478,38 @@ void H264_decodeSlice(int v, u_char *b, int len) {
 
   if(slice.slice_type % 5 != 2 && slice.slice_type % 5 != 4) {
     read_bit(&data, &slice.ref_pic_list_reordering_flag_l0);
+    if(slice.ref_pic_list_reordering_flag_l0) {
+      do {
+        read_exp_golomb(&data, &slice.reordering_of_pic_nums_idc);
+        if (slice.reordering_of_pic_nums_idc == 0
+            || slice.reordering_of_pic_nums_idc == 1)
+          read_exp_golomb(&data, &slice.abs_diff_pic_num_minus1);
+        else if (slice.reordering_of_pic_nums_idc == 2)
+          read_exp_golomb(&data, &slice.long_term_pic_num);
+      } while( slice.reordering_of_pic_nums_idc != 3 );
+    }
   }
 
   if(slice.slice_type % 5 == 1) {
     read_bit(&data, &slice.ref_pic_list_reordering_flag_l1);
+    if(slice.ref_pic_list_reordering_flag_l1) {
+      do {
+        read_exp_golomb(&data, &slice.reordering_of_pic_nums_idc);
+        if (slice.reordering_of_pic_nums_idc == 0
+            || slice.reordering_of_pic_nums_idc == 1)
+          read_exp_golomb(&data, &slice.abs_diff_pic_num_minus1);
+        else if (slice.reordering_of_pic_nums_idc == 2)
+          read_exp_golomb(&data, &slice.long_term_pic_num);
+      } while( slice.reordering_of_pic_nums_idc != 3 );
+    }
   }
 
-  if(slice.ref_pic_list_reordering_flag_l1
-      || slice.ref_pic_list_reordering_flag_l0) {
-    do {
-      read_exp_golomb(&data, &slice.reordering_of_pic_nums_idc);
-      if (slice.reordering_of_pic_nums_idc == 0
-          || slice.reordering_of_pic_nums_idc == 1)
-        read_exp_golomb(&data, &slice.abs_diff_pic_num_minus1);
-      else if (slice.reordering_of_pic_nums_idc == 3)
-        read_signed_exp_golomb(&data, &slice.long_term_pic_num);
-    } while( slice.reordering_of_pic_nums_idc != 3 );
-  }
 
   // pred_weight_table
+
+  uint32_t ChromaArrayType = 0;
+  if (decoder.sps.separate_colour_plane_flag == 0)
+    ChromaArrayType = decoder.sps.chroma_format_idc;
 
   if ( (decoder.pps.weighted_pred_flag && (IS_P_SLICE(slice.slice_type) || IS_SP_SLICE(slice.slice_type))) 
       || (decoder.pps.weighted_bipred_idc == 1 && IS_B_SLICE(slice.slice_type)) ) {
@@ -511,10 +524,6 @@ void H264_decodeSlice(int v, u_char *b, int len) {
     int32_t chroma_weight_l1;
     int32_t chroma_offset_l1;
 
-    uint32_t ChromaArrayType = 0;
-    if (decoder.sps.separate_colour_plane_flag == 0)
-      ChromaArrayType = decoder.sps.chroma_format_idc;
-    
     read_exp_golomb(&data, &slice.luma_log2_weight_denom);
 
     if (ChromaArrayType != 0)
@@ -595,7 +604,7 @@ void H264_decodeSlice(int v, u_char *b, int len) {
     read_exp_golomb(&data, &slice.cabac_init_idc);
   }
 
-  read_exp_golomb(&data, &slice.slice_qp_delta);
+  read_signed_exp_golomb(&data, &slice.slice_qp_delta);
 
   if (IS_SP_SLICE(slice.slice_type) || IS_SI_SLICE(slice.slice_type)) {
     if(IS_SP_SLICE(slice.slice_type)) {
@@ -679,6 +688,55 @@ void H264_decodeSlice(int v, u_char *b, int len) {
         out_SB_NL(v, "num_ref_idx_l1_active_minus1: ", slice.num_ref_idx_l1_active_minus1);
     }
   }
+
+  // ref_pic_list_reordering
+
+  if( (slice.slice_type % 5) != 2 && (slice.slice_type % 5) != 4 ) {
+    out_SB_NL(v, "ref_pic_list_reordering_flag_l0: ", slice.ref_pic_list_reordering_flag_l0);
+  }
+
+  if( (slice.slice_type % 5) == 1 ) {
+    out_SB_NL(v, "ref_pic_list_reordering_flag_l1: ", slice.ref_pic_list_reordering_flag_l1);
+  }
+
+  // pred_weight_table
+
+  if ( (decoder.pps.weighted_pred_flag && (IS_P_SLICE(slice.slice_type) || IS_SP_SLICE(slice.slice_type)))
+      || (decoder.pps.weighted_bipred_idc == 1 && IS_B_SLICE(slice.slice_type)) ) {
+     out_SB_NL(v, "luma_log2_weight_denom: ", slice.luma_log2_weight_denom);
+     if( ChromaArrayType != 0 )
+       out_SB_NL(v, "chroma_log2_weight_denom: ", slice.chroma_log2_weight_denom);
+  }
+
+  // dec_ref_pic_marking
+
+  if ( nal_ref_idc != 0 ) {
+    if (nal_unit_type == 5) { // IDR
+      out_SB_NL(v, "no_output_of_prior_pics_flag: ", slice.no_output_of_prior_pics_flag);
+      out_SB_NL(v, "long_term_reference_flag: ", slice.long_term_reference_flag);
+    }
+    else {
+      out_SB_NL(v, "adaptive_ref_pic_marking_mode_flag: ", slice.adaptive_ref_pic_marking_mode_flag);
+      if (slice.adaptive_ref_pic_marking_mode_flag) {
+        out_SB_NL(v, "memory_management_control_operation: ", slice.memory_management_control_operation);
+        if(slice.memory_management_control_operation == 1 ||
+          slice.memory_management_control_operation == 3) {
+          out_SB_NL(v, "difference_of_pic_nums_minus1: ", slice.difference_of_pic_nums_minus1);
+        }
+        if(slice.memory_management_control_operation == 2) {
+          out_SB_NL(v, "long_term_pic_num: ", slice.long_term_pic_num);
+        }
+        if (slice.memory_management_control_operation == 3
+            || slice.memory_management_control_operation == 6 ) {
+          out_SB_NL(v, "long_term_frame_idx: ", slice.long_term_frame_idx);
+        }
+        if ( slice.memory_management_control_operation == 4 ) {
+          out_SB_NL(v, "max_long_term_frame_idx_plus1: ", slice.max_long_term_frame_idx_plus1);
+        }
+      }
+    }
+  }
+
 
   if (decoder.pps.entropy_coding_mode_flag
       && !IS_I_SLICE(slice.slice_type)
