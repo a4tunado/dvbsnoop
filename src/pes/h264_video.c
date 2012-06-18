@@ -744,7 +744,7 @@ void H264_decodeSlice(int v, u_char *b, int len) {
     out_SB_NL(v, "cabac_init_idc: ", slice.cabac_init_idc);
   }
 
-  read_exp_golomb(&data, &slice.slice_qp_delta);
+  out_SB_NL(v, "slice_qp_delta: ", slice.slice_qp_delta);
 
   if (IS_SP_SLICE(slice.slice_type) || IS_SI_SLICE(slice.slice_type)) {
     if(IS_SP_SLICE(slice.slice_type)) {
