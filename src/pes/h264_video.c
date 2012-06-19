@@ -405,6 +405,7 @@ void H264_decodeSlice(int v, u_char *b, int len) {
     int32_t slice_alpha_c0_offset_div2;
     int32_t slice_beta_offset_div2;
     uint32_t slice_group_change_cycle;
+    uint32_t slice_id;
   } H264_SLICE;
 
   H264_SLICE slice = {0,};
@@ -636,6 +637,8 @@ void H264_decodeSlice(int v, u_char *b, int len) {
 
   }
 
+  read_exp_golomb(&data, &slice.slice_id);
+
 
 
   out_SB_NL(v, "first_mb_in_slice: ", slice.first_mb_in_slice);
@@ -764,7 +767,10 @@ void H264_decodeSlice(int v, u_char *b, int len) {
   if (decoder.pps.num_slice_groups_minus1 > 0
       && decoder.pps.slice_group_map_type >= 3
       && decoder.pps.slice_group_map_type <= 5) {
-    out_SB_NL(v, "cabac_init_idc: ", slice.slice_group_change_cycle);
+    out_SB_NL(v, "slice_group_change_cycle: ", slice.slice_group_change_cycle);
   }
+
+
+  out_SB_NL(v, "slice_id: ", slice.slice_id);
 
 }
