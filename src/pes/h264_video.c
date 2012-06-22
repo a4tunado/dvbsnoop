@@ -330,9 +330,9 @@ void H264_decodePPS(int v, u_char *b, int len) {
   out_SB_NL(v, "num_ref_idx_l1_active_minus1: ", pps.num_ref_idx_l1_active_minus1);
   out_SB_NL(v, "weighted_pred_flag: ", pps.weighted_pred_flag);
   out_SB_NL(v, "weighted_bipred_idc: ", pps.weighted_bipred_idc);
-  out_SB_NL(v, "pic_init_qp_minus26: ", pps.pic_init_qp_minus26);
-  out_SB_NL(v, "pic_init_qs_minus26: ", pps.pic_init_qs_minus26);
-  out_SB_NL(v, "chroma_qp_index_offset: ", pps.chroma_qp_index_offset);
+  out_SLL_NL(v, "pic_init_qp_minus26: ", pps.pic_init_qp_minus26);
+  out_SLL_NL(v, "pic_init_qs_minus26: ", pps.pic_init_qs_minus26);
+  out_SLL_NL(v, "chroma_qp_index_offset: ", pps.chroma_qp_index_offset);
   out_SB_NL(v, "deblocking_filter_control_present_flag: ", pps.deblocking_filter_control_present_flag);
   out_SB_NL(v, "constrained_intra_pred_flag: ", pps.constrained_intra_pred_flag);
   out_SB_NL(v, "redundant_pic_cnt_present_flag: ", pps.redundant_pic_cnt_present_flag);
