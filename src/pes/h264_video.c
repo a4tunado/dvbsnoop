@@ -747,20 +747,20 @@ void H264_decodeSlice(int v, u_char *b, int len) {
     out_SB_NL(v, "cabac_init_idc: ", slice.cabac_init_idc);
   }
 
-  out_SB_NL(v, "slice_qp_delta: ", slice.slice_qp_delta);
+  out_SLL_NL(v, "slice_qp_delta: ", slice.slice_qp_delta);
 
   if (IS_SP_SLICE(slice.slice_type) || IS_SI_SLICE(slice.slice_type)) {
     if(IS_SP_SLICE(slice.slice_type)) {
       out_SB_NL(v, "sp_for_switch_flag: ", slice.sp_for_switch_flag);
     }
-    out_SB_NL(v, "slice_qs_delta: ", slice.slice_qs_delta);
+    out_SLL_NL(v, "slice_qs_delta: ", slice.slice_qs_delta);
   }
 
   if (decoder.pps.deblocking_filter_control_present_flag) {
     out_SB_NL(v, "disable_deblocking_filter_idc: ", slice.disable_deblocking_filter_idc);
     if (slice.disable_deblocking_filter_idc != 1) {
-      out_SB_NL(v, "slice_alpha_c0_offset_div2: ", slice.slice_alpha_c0_offset_div2);
-      out_SB_NL(v, "slice_beta_offset_div2: ", slice.slice_beta_offset_div2);
+      out_SLL_NL(v, "slice_alpha_c0_offset_div2: ", slice.slice_alpha_c0_offset_div2);
+      out_SLL_NL(v, "slice_beta_offset_div2: ", slice.slice_beta_offset_div2);
     }
   }
 
