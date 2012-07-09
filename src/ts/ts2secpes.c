@@ -454,11 +454,8 @@ void ts2SecPes_Output_subdecode (u_int overleap_bytes, u_int pid)
      	out_nl (3,"Packet cannot be sub-decoded: %s",s);
 
      } else {
-   	u_char *b;
-	u_int  len;
-
-	b   = packetMem_buffer_start (tsd->mem_handle);
-	len = (u_int) packetMem_length (tsd->mem_handle);
+        u_char *b = packetMem_buffer_start (tsd->mem_handle);
+        u_int len = (u_int) packetMem_length (tsd->mem_handle);
 
 	if (b && len) {
 
@@ -466,14 +463,14 @@ void ts2SecPes_Output_subdecode (u_int overleap_bytes, u_int pid)
 
 	    if (b[0]==0x00 && b[1]==0x00 && b[2]==0x01) {
 
-		out_nl (3,"TS contains PES/PS stream...");
+		out_nl (3,"TS contains PES/PS stream (length=%u)...", len);
 		ts2ps_pes_multipacket (b, len, tsd->pid);
 
 	    } else {
 		int pointer = b[0]+1;
 		b += pointer;
 
-		out_nl (3,"TS contains Section...");
+		out_nl (3,"TS contains Section (length=%u)...", len);
 		ts2sec_multipacket (b, len-pointer, tsd->pid);
 
 	    }
