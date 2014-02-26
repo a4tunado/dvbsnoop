@@ -149,6 +149,9 @@
       { 0x0058 ,  0x0058,
         "Thiacom 1 & 2 co-located 78.5°E - Satellite - UBC Thailand "
       },
+      { 0x005C ,  0x005C,
+        "TNL PCS - Satellite - TNL PCS"
+      },
       { 0x005E ,  0x005E,
         "Sirius Satellite System Nordic Coverage - Satellite - NSAB "
       },
@@ -248,8 +251,11 @@
       { 0x00AE ,  0x00AF,
         "(NDS satellite services) - Satellite - (NDS to be allocated)"
       },
-      { 0x00B0 ,  0x00B3,
-        "TPS - Satellite - La Télévision Par Satellite"
+      { 0x00B0 ,  0x00B0,
+        "Groupe CANAL+ - Satellite - Groupe CANAL+"
+      },
+      { 0x00B1 ,  0x00B3,
+        "CANAL+ OVERSEAS - Satellite - CANAL+ OVERSEAS"
       },
       { 0x00B4 ,  0x00B4,
         "Telesat 107.3°W - Satellite - Telesat Canada"
@@ -259,6 +265,12 @@
       },
       { 0x00B7 ,  0x00B7,
         "REAL Digital EPG Services Limited - Satellite - REAL Digital EPG Services Limited"
+      },
+      { 0x00B8 ,  0X00B8,
+        "W1 - Neterra White Label DTH - Satellite, Cable - Neterra Communications Ltd."
+      },
+      { 0x00BB ,  0x00BB,
+        "Slovak Telekom, a.s. - Satellite - Slovak Telekom, a.s."
       },
       { 0x00C0 ,  0x00CD,
         "Canal + - Satellite, Cable - Canal+"
@@ -274,6 +286,9 @@
       },
       { 0x00D2 ,  0x00DF,
         "(NDS satellite services) - Satellite - (NDS to be allocated)"
+      },
+      { 0x00E0 ,  0x00E0,
+        "Es’hailSat - Satellite - Es’hailSat"
       },
       { 0x00EB ,  0x00EB,
         "Eurovision Network - Satellite - European Broadcasting Union  "
@@ -464,6 +479,9 @@
       { 0x1100 ,  0x110F,
         "GE Americom - Satellite - GE American Communications"
       },
+      { 0x1111 ,  0x1111,
+        "EASTERN SPACE SYSTEMS - Satellite - EASTERN SPACE SYSTEMS"
+      },
       { 0x1700 ,  0x1700,
         "Echostar 2A - Satellite - EchoStar Communications"
       },
@@ -591,10 +609,31 @@
         "PanAmSat 4 68.5°E - Satellite - Pan American Satellite System"
       },
       { 0x3001 ,  0x3100,
+        "DTT Seychelles - Terrestrial - Seychelles Broadcasting Corporation"
+      },
+      { 0x3001 ,  0x3100,
+        "DTT Serbia - JP Emisiona Tehnika i Veze - Terrestrial - DTT Serbia - JP Emisiona Tehnika i Veze"
+      },
+      { 0x3001 ,  0x3100,
+        "German Digital Terrestrial Television - Terrestrial - IRT on behalf of the German DVB-T broadcasts"
+      },
+      { 0x3001 ,  0x3100,
+        "Gibraltar Regulatory Authority - Terrestrial - Gibraltar Regulatory Authority"
+      },
+      { 0x3001 ,  0x3100,
+        "DTT - Latvian Digital Terrestrial Television - Terrestrial - SIA Lattelecom"
+      },
+      { 0x3101 ,  0x3100,
+        "Communications Regulatory Authority of Namibia (CRAN) - Terrestrial - Communications Regulatory Authority of Namibia (CRAN)"
+      },
+      { 0x3001 ,  0x3100,
         "Italian Digital Terrestrial Television - Terrestrial - Italian Telecommunications Ministry"
       },
       { 0x3001 ,  0x3100,
         "DTT - Slovak Republic (provisional) - To be defined - "
+      },
+      { 0x3001 ,  0x3100,
+        "Ghana DTT - Terrestrial - Ghana National Communications Authority"
       },
       { 0x3001 ,  0x3100,
         "UK Digital Terrestrial Television - Terrestrial - Independant Television Comission"
@@ -602,23 +641,29 @@
       { 0x3001 ,  0x3100,
         "DTT - South African Digital Terrestrial Television - Terrestrial - South African Broadcasting Corporation Ltd. (SABC), pending formation of 'DZONGA'"
       },
-      { 0x3001 ,  0x3100,
-        "German Digital Terrestrial Television - Terrestrial - IRT on behalf of the German DVB-T broadcasts"
-      },
-      { 0x3001 ,  0x3100,
-        "DTT - Latvian Digital Terrestrial Television - Terrestrial - SIA Lattelecom"
-      },
-      { 0x3001 ,  0x3100,
-        "DTT Serbia - JP Emisiona Tehnika i Veze - Terrestrial - DTT Serbia - JP Emisiona Tehnika i Veze"
-      },
-      { 0x3001 ,  0x3100,
-        "Gibraltar Regulatory Authority - Terrestrial - Gibraltar Regulatory Authority"
-      },
       { 0x3101 ,  0x3101,
         "ABS-CBN - Terrestrial - ABS-CBN Broadcasting Corporation"
       },
       { 0x3102 ,  0x3102,
         "AMCARA Broadcasting Network - Terrestrial - ABS-CBN Broadcasting Corporation"
+      },
+      { 0x3101 ,  0x3200,
+        "HACA - Terrestrial - HACA"
+      },
+      { 0x3101 ,  0x3200,
+        "DTT Country of Curacao - Terrestrial - Bureau Telecommunicatie en Post"
+      },
+      { 0x3101 ,  0x3200,
+        "Swedish Digital Terrestrial Television - Terrestrial - Post och Telestyrelsen"
+      },
+      { 0x3101 ,  0x3200,
+        "Office of National Broadcasting and Telecommunications Commission - Terrestrial - Office of National Broadcasting and Telecommunications Commission"
+      },
+      { 0x3101 ,  0x3200,
+        "Czech Republic Digital Terrestrial Television - Terrestrial - Czech Digital Group"
+      },
+      { 0x3103 ,  0x3200,
+        "DTT - Philippines Digital Terrestrial Television - Terrestrial - NTA (pending - ABS-CBN in meantime)"
       },
       { 0x3101 ,  0x3200,
         "US Digital Terrestrial Television - Terrestrial - BellSouth Entertainment, Atlanta, GA, USA (on behalf of US broadcasters)"
@@ -635,18 +680,6 @@
       { 0x3101 ,  0x3200,
         "Netherlands Digital Terrestrial Television - Terrestrial - Nozema"
       },
-      { 0x3101 ,  0x3200,
-        "DTT Country of Curacao - Terrestrial - Bureau Telecommunicatie en Post"
-      },
-      { 0x3101 ,  0x3200,
-        "Swedish Digital Terrestrial Television - Terrestrial - Post och Telestyrelsen"
-      },
-      { 0x3101 ,  0x3200,
-        "Czech Republic Digital Terrestrial Television - Terrestrial - Czech Digital Group"
-      },
-      { 0x3103 ,  0x3200,
-        "DTT - Philippines Digital Terrestrial Television - Terrestrial - NTA (pending - ABS-CBN in meantime)"
-      },
       { 0x3201 ,  0x3210,
         "Singapore Digital Terrestrial Television - Terrestrial - Singapore Broadcasting Authority"
       },
@@ -655,6 +688,18 @@
       },
       { 0x3212 ,  0x3212,
         "StarHub Cable Vision - Cable - StarHub Cable Vision Ltd."
+      },
+      { 0x3201 ,  0x3300,
+        "Australian Digital terrestrial Television - Terrestrial - Australian Broadcasting Authority"
+      },
+      { 0x3201 ,  0x3300,
+        "Danish Digital Terrestrial Television - Terrestrial - National Telecom Agency Denmark"
+      },
+      { 0x3201 ,  0x3300,
+        "DTT - Slovenian Digital Terrestrial Television - Terrestrial - APEK"
+      },
+      { 0x3201 ,  0x3300,
+        "Irish Digital terrestrial Television - Terrestrial - Irish OFCOM"
       },
       { 0x3201 ,  0x3300,
         "Estonian Digital Terrestrial Television - Terrestrial - Estonian Terrestrial Regulator"
@@ -671,17 +716,20 @@
       { 0x3201 ,  0x3300,
         "DTT - Romania (provisional) - Terrestrial - "
       },
-      { 0x3201 ,  0x3300,
-        "Australian Digital terrestrial Television - Terrestrial - Australian Broadcasting Authority"
+      { 0x3301 ,  0x3400,
+        "Iceland DTT - - - Vodafone Iceland "
       },
-      { 0x3201 ,  0x3300,
-        "Danish Digital Terrestrial Television - Terrestrial - National Telecom Agency Denmark"
+      { 0x3301 ,  0x3400,
+        "Autoridad Nacional de los Servicios Públicos - Terrestrial - Autoridad Nacional de los Servicios Públicos"
       },
-      { 0x3201 ,  0x3300,
-        "DTT - Slovenian Digital Terrestrial Television - Terrestrial - APEK"
+      { 0x3301 ,  0x3400,
+        "Israeli Digital Terrestrial Television - Terrestrial - BEZEQ (The Israel Telecommunication Corp Ltd.)"
       },
-      { 0x3201 ,  0x3300,
-        "Irish Digital terrestrial Television - Terrestrial - Irish OFCOM"
+      { 0x3301 ,  0x3400,
+        "Taiwanese Digital Terrestrial Television - Terrestrial - Directorate General of Telecommunications"
+      },
+      { 0x3301 ,  0x3400,
+        "Myanmar DTT - Terrestrial - Myanma Radio and Television"
       },
       { 0x3301 ,  0x3400,
         "Finnish Digital Terrestrial Television - Terrestrial - Telecommunicatoins Administratoin Centre, Finland"
@@ -699,13 +747,13 @@
         "DTT Lithuania - Terrestrial - Communications Regulatory Authority"
       },
       { 0x3301 ,  0x3400,
-        "Autoridad Nacional de los Servicios Públicos - Terrestrial - Autoridad Nacional de los Servicios Públicos"
+        "Malaysian Technical Standards Forum Bhd (MTFSB) - Terrestrial - Malaysian Technical Standards Forum Bhd (MTFSB)"
       },
-      { 0x3301 ,  0x3400,
-        "Israeli Digital Terrestrial Television - Terrestrial - BEZEQ (The Israel Telecommunication Corp Ltd.)"
+      { 0x3401 ,  0x3500,
+        "Belgian Digital Terrestrial Television - Terrestrial - "
       },
-      { 0x3301 ,  0x3400,
-        "Taiwanese Digital Terrestrial Television - Terrestrial - Directorate General of Telecommunications"
+      { 0x3401 ,  0x3500,
+        "DTT- Portugal - Terrestrial - ANACOM- National Communications Authority"
       },
       { 0x3401 ,  0x3500,
         "Norwegian Digital Terrestrial Television - Terrestrial - "
@@ -719,12 +767,6 @@
       { 0x3401 ,  0x3500,
         "DTT- Poland - Terrestrial - Office of Electronic Communications"
       },
-      { 0x3401 ,  0x3500,
-        "Belgian Digital Terrestrial Television - Terrestrial - "
-      },
-      { 0x3401 ,  0x3500,
-        "DTT- Portugal - Terrestrial - ANACOM- National Communications Authority"
-      },
       { 0x3501 ,  0x3600,
         "DTT - Russian Federation - Terrestrial - RTRN"
       },
@@ -732,10 +774,10 @@
         "Telefonica Cable - Cable - Telefonica Cable SA"
       },
       { 0xA001 ,  0xA001,
-        "H3G - Terrestrial - 3lettronica Industriale S.p.A"
+        "RRD - Terrestrial - RRD Reti Radiotelevisive Digitali Spa"
       },
       { 0xA001 ,  0xA001,
-        "RRD - Terrestrial - RRD Reti Radiotelevisive Digitali Spa"
+        "H3G - Terrestrial - 3lettronica Industriale S.p.A"
       },
       { 0xA010 ,  0xA010,
         "Foxtel Cable - Cable - Foxtel (Australia)"
@@ -797,11 +839,11 @@
       { 0xA023 ,  0xA02C,
         "RCN  1 - 10 - Cable - Rogers Cable (USA)"
       },
-      { 0XA040 ,  0XA040,
-        "COMCOR-TV - Cable - COMCOR-TV"
-      },
       { 0xA02D ,  0xA040,
         "(NDS services) - Cable - (NDS to be allocated)"
+      },
+      { 0XA040 ,  0XA040,
+        "COMCOR-TV - Cable - COMCOR-TV"
       },
       { 0xA041 ,  0xA043,
         "Euskaltel TV On Line - Cable - Euskaltel"
@@ -816,13 +858,13 @@
         "Regional Cable Network - Cable - Wilhelm.Tel"
       },
       { 0xA050 ,  0xA070,
+        "Cable & Wireless Optus - Cable - Cable & Wireless Optus"
+      },
+      { 0xA050 ,  0xA070,
         "Cable & Wireless Communications - Cable - Cable & Wireless Communications"
       },
       { 0xA070 ,  0xA070,
         "ewt Network - Cable - ewt gmbh"
-      },
-      { 0xA050 ,  0xA070,
-        "Cable & Wireless Optus - Cable - Cable & Wireless Optus"
       },
       { 0xA071 ,  0xA071,
         "Värnamo Energi AB - Cable - Värnamo Energi AB"
@@ -855,10 +897,10 @@
         "Hathway - Cable - Hathway Cable & Datacom Pvt Ltd"
       },
       { 0xA600 ,  0xA600,
-        "Madritel - Cable - Madritel ( Spain ) (NDS)"
+        "Telstra HFC National Network - HFC - Telstra"
       },
       { 0xA600 ,  0xA600,
-        "Telstra HFC National Network - HFC - Telstra"
+        "Madritel - Cable - Madritel ( Spain ) (NDS)"
       },
       { 0xA602 ,  0xA602,
         "Tevel - Cable - Tevel Cabe ( Israel ) (NDS)"
@@ -919,6 +961,9 @@
       },
       { 0xF001 ,  0xF01F,
         "Kabel Deutschland - Cable - Kabel Deutschland "
+      },
+      { 0xF020 ,  0xF020,
+        "Deutsche Telekom AG - Cable - Deutsche Telekom AG"
       },
       { 0xF100 ,  0xF100,
         "Casema - Cable - Casema"

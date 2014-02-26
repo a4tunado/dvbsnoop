@@ -104,6 +104,15 @@
       { 0x1E00 ,  0x1E07,
         "Alticast -  - "
       },
+      { 0x1EA0 ,  0x1EA0,
+        "Protac -  - "
+      },
+      { 0x1EB0 ,  0x1EB0,
+        "TELECAST TECHNOLOGY CO., LTD. -  - "
+      },
+      { 0x1EC0 ,  0x1EC0,
+        "Cryptoguard AB -  - "
+      },
       { 0x2000 ,  0x20FF,
         "Telefonica Servicios Audiovisuales -  - "
       },
@@ -146,6 +155,9 @@
       { 0x2717 ,  0x2718,
         "LOGIWAYS -  - "
       },
+      { 0x2719 ,  0x2719,
+        "S-Curious Research and Technology Private Limited -  - "
+      },
       { 0x2800 ,  0x2809,
         "LCS LLC -  - "
       },
@@ -157,6 +169,9 @@
       },
       { 0x4700 ,  0x47FF,
         "General Instrument (Motorola) -  - "
+      },
+      { 0x4825 ,  0x4825,
+        "ChinaEPG (Beijing) Technology Co., Ltd. -  - "
       },
       { 0x4800 ,  0x48FF,
         "Telemann -  - "
@@ -180,7 +195,7 @@
         "Shenzhen Kingsky Company (China) Ltd. -  - "
       },
       { 0x4A60 ,  0x4A6F,
-        "@Sky -  - "
+        "NEOTION SA -  - "
       },
       { 0x4A70 ,  0x4A7F,
         "Dreamcrypt -  - "
@@ -311,6 +326,9 @@
       { 0x4AFC ,  0x4AFC,
         "Panaccess Systems GmbH -  - "
       },
+      { 0x4AFD ,  0x4AFD,
+        "Comteza SIA -  - "
+      },
       { 0x4B00 ,  0x4B02,
         "Tongfang CAS -  - "
       },
@@ -349,6 +367,9 @@
       },
       { 0x4B20 ,  0x4B22,
         "MULTIKOM DELTASAT GmbH Co KG -  - "
+      },
+      { 0x4B23 ,  0x4B23,
+        "SkyNLand Video Networks Pvt Ltd -  - "
       },
       { 0x5347 ,  0x5347,
         "GkWare e.K. -  - "

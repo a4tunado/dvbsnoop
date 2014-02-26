@@ -167,6 +167,9 @@
       { 0x0170 ,  0x0170,
         "Digital TV Group -  - Digital TV Group"
       },
+      { 0x0180 ,  0x0181,
+        "South African Broadcasting Corporation -  - South African Broadcasting Corporation"
+      },
       { 0x4444 ,  0x4444,
         "4TV Data Broadcast -  - 4TV Data Broadcast"
       },

@@ -77,6 +77,9 @@
       { 0x0095 ,  0x0096,
         "Digiturk -  - Digiturk"
       },
+      { 0x0097 ,  0x0097,
+        "digiturk -  - digiturk"
+      },
       { 0x0100 ,  0x011F,
         "BBC -  - BBC"
       },
@@ -91,6 +94,9 @@
       },
       { 0x0561 ,  0x0561,
         "Eutelsat VisaVision TV -  - Eutelsat S.A."
+      },
+      { 0x0600 ,  0x0600,
+        "Ziggo -  - Ziggo"
       },
       { 0x061F ,  0x061F,
         "BellSouth Entertainment -  - 'BellSouth Entertainment, Atlanta, GA, USA  '"
@@ -191,6 +197,9 @@
       { 0x2011 ,  0x2013,
         "WIZJATV n°1 - n°3 -  - UPC Direct Programming BV "
       },
+      { 0x2020 ,  0x2022,
+        "ITI Neovision S.A. -  - ITI Neovision S.A."
+      },
       { 0x2100 ,  0x212F,
         "TSA 1 - 48 -  - Telefónica Servicios Audiovisuales"
       },
@@ -235,6 +244,12 @@
       },
       { 0x38B0 ,  0x38BF,
         "EUTELSAT -  - EUTELSAT"
+      },
+      { 0x3900 ,  0x3900,
+        "SK-M-TV -  - Slovak Telekom, a.s."
+      },
+      { 0x3901 ,  0x3901,
+        "SK-D-TV -  - Slovak Telecom a.s "
       },
       { 0x4000 ,  0x4000,
         "HPT -  - HPT"
@@ -316,6 +331,9 @@
       },
       { 0xC030 ,  0xC031,
         "TV Numeric -  - TV Numeric"
+      },
+      { 0xF200 ,  0xF201,
+        "Deutsche Telekom AG -  - Deutsche Telekom AG"
       },
       { 0xFC00 ,  0xFCFF,
         "France Telecom n° 1 - n° 256 -  - France Telecom Orange"

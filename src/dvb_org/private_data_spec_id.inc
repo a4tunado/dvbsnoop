@@ -54,7 +54,7 @@
         "Humax Electronics Co. Ltd . -  - "
       },
       { 0x00000018 ,  0x00000018,
-        "@Sky   -  - "
+        "Neotion SA -  - "
       },
       { 0x00000019 ,  0x00000019,
         "Singapore Digital Terrestrial Television   -  - "
@@ -120,7 +120,7 @@
         "TeleDenmark  -  - "
       },
       { 0x00000032 ,  0x00000032,
-        "AUSTAR Communications -  - "
+        "Foxtel Management -  - "
       },
       { 0x00000033 ,  0x00000033,
         "InOutTV -  - "
@@ -224,6 +224,12 @@
       { 0x00000180 ,  0x00000180,
         "EAB - Ericsson AB -  - "
       },
+      { 0x00000190 ,  0x00000190,
+        "Samsung Electronics (UK) Ltd -  - "
+      },
+      { 0x000001A0 ,  0x000001A0,
+        "RCS&RDS -  - "
+      },
       { 0x0000055F ,  0x0000055F,
         "Eutelsat S.A. (2) -  - "
       },
@@ -251,11 +257,23 @@
       { 0x00002000 ,  0x00002000,
         "UC-Connect -  - "
       },
+      { 0x00002068 ,  0x00002068,
+        "Myanma Radio and Television -  - "
+      },
       { 0x000020AA ,  0x000020AA,
         "Comision Nacional de Television de Colombia -  - "
       },
+      { 0x00002160 ,  0x00002160,
+        "Vodafone Iceland -  - "
+      },
       { 0x00002168 ,  0x00002168,
         "Ministry of Communication and Information Technology of the Republic of Indonesia -  - "
+      },
+      { 0x00002180 ,  0x00002180,
+        "HACA -  - "
+      },
+      { 0x000021CA ,  0x000021CA,
+        "Malaysian Technical Standards Forum Bhd (MTFSB) -  - "
       },
       { 0x00002213 ,  0x00002213,
         "Bureau Telecommunicatie en Post -  - "
@@ -299,6 +317,9 @@
       { 0x000022F1 ,  0x000022F1,
         "“Swedish Broadcasting Regulator ” -  - "
       },
+      { 0x000022FC ,  0x000022FC,
+        "Office of National Broadcasting and Telecommunications Commission -  - "
+      },
       { 0x0000233A ,  0x0000233A,
         "Independent Television Commission  -  - "
       },
@@ -333,7 +354,7 @@
         "Rhône Vision Cable -  - "
       },
       { 0x41555300 ,  0x41555300,
-        "AUSTAR Communications -  - "
+        "Foxtel Management -  - "
       },
       { 0x44414E59 ,  0x44414E59,
         "News Datacom (IL) 1 -  - "
@@ -349,6 +370,12 @@
       },
       { 0x46545600 ,  0x46545620,
         "FreeTV 1 - 33 -  - "
+      },
+      { 0x46585431 ,  0x46585433,
+        "FOXTEL Management Pty Ltd -  - "
+      },
+      { 0x4658544C ,  0x4658544C,
+        "FOXTEL Management Pty Ltd -  - "
       },
       { 0x4A4F4A4F ,  0x4A4F4A4F,
         "Kabel Deutschland -  - "

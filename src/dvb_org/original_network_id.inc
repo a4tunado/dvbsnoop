@@ -191,6 +191,9 @@
       { 0x005B ,  0x005B,
         "ZON -  - ZON"
       },
+      { 0x005C ,  0x005C,
+        "TNL PCS -  - TNL PCS"
+      },
       { 0x005E ,  0x005E,
         "NSAB  -  - NSAB "
       },
@@ -209,6 +212,9 @@
       { 0x0066 ,  0x0066,
         "Zweites Deutsches Fernsehen - ZDF (cable contribution) -  - Zweites Deutsches Fernsehen - ZDF"
       },
+      { 0x0068 ,  0x0068,
+        "SinemaTV -  - SinemaTV"
+      },
       { 0x0069 ,  0x0069,
         "Optus B3 156°E -  - Optus Communications"
       },
@@ -226,6 +232,9 @@
       },
       { 0x0085 ,  0x0085,
         "DVB administered -  - DVB administered"
+      },
+      { 0x0088 ,  0x0088,
+        "Deutscher Televisionsklub Betriebs GmbH -  - Deutscher Televisionsklub Betriebs GmbH"
       },
       { 0x0090 ,  0x0090,
         "National network -  - TDF"
@@ -284,8 +293,11 @@
       { 0x00AE ,  0x00AF,
         "(NDS satellite services) -  - (NDS to be allocated)"
       },
-      { 0x00B0 ,  0x00B3,
-        "TPS -  - La Télévision Par Satellite"
+      { 0x00B0 ,  0x00B0,
+        "Groupe CANAL+ -  - Groupe CANAL+"
+      },
+      { 0x00B1 ,  0x00B3,
+        "CANAL+ OVERSEAS -  - CANAL+ OVERSEAS"
       },
       { 0x00B4 ,  0x00B4,
         "Telesat 107.3°W -  - Telesat Canada"
@@ -299,6 +311,9 @@
       { 0x00BA ,  0x00BA,
         "Satellite Express – 6 (80°E) -  - Satellite Express "
       },
+      { 0x00BB ,  0x00BB,
+        "Slovak Telekom, a.s. -  - Slovak Telekom, a.s."
+      },
       { 0x00C0 ,  0x00CD,
         "Canal + -  - Canal+"
       },
@@ -308,11 +323,23 @@
       { 0x00D1 ,  0x00D1,
         "Galaxy -  - Galaxy Satellite Broadcasting, Hong Kong (NDS)"
       },
+      { 0x00D2 ,  0x00D2,
+        "POVERKHNOST SPORT-TUR, LLC -  - POVERKHNOST SPORT-TUR, LLC"
+      },
       { 0x00D2 ,  0x00DF,
         "(NDS satellite services) -  - (NDS to be allocated)"
       },
+      { 0x00E0 ,  0x00E0,
+        "Es’hailSat -  - Es’hailSat"
+      },
       { 0x00EB ,  0x00EB,
         "Eurovision Network -  - European Broadcasting Union  "
+      },
+      { 0x00F0 ,  0x00F0,
+        "NPO -  - NPO"
+      },
+      { 0x00FD ,  0x00FF,
+        "TricolorTV -  - CJSC National Satellite Company"
       },
       { 0x0100 ,  0x0100,
         "ExpressVu -  - ExpressVu Inc."
@@ -377,6 +404,9 @@
       { 0x02C0 ,  0x02C0,
         "MTV Networks Europe -  - MTV Networks Europe"
       },
+      { 0x031E ,  0x031E,
+        "Turksat A.S.  -  - Turksat A.S. "
+      },
       { 0x033D ,  0x033D,
         "Skylogic at 33°E -  - Skylogic Italia"
       },
@@ -394,6 +424,9 @@
       },
       { 0x03E8 ,  0x03E8,
         "Telia -  - Telia, Sweden"
+      },
+      { 0x042E ,  0x042E,
+        "TURKSAT A.S -  - TURKSAT A.S"
       },
       { 0x045D ,  0x045F,
         "Eutelsat satellite system at 15°West -  - Eutelsat S.A."
@@ -415,6 +448,9 @@
       },
       { 0x0500 ,  0x0500,
         "Vinasat Center -  - Vinasat Center"
+      },
+      { 0x050E ,  0x050E,
+        "Turksat A.S. -  - Turksat A.S"
       },
       { 0x0510 ,  0x0510,
         "Almajd -  - Almajd Satellite Broadcasting FZ LLC"
@@ -534,7 +570,7 @@
         "Telecasters Australia -  - Telecasters Australia Limited  "
       },
       { 0x1019 ,  0x1019,
-        "NBN Australia -  - NBN Limited  "
+        "NBN TV -  - NBN Television Limited"
       },
       { 0x101A ,  0x101A,
         "Imparja Television Australia -  - Imparja Television Australia "
@@ -565,6 +601,9 @@
       },
       { 0x1107 ,  0x1107,
         "VTC Mobile TV -  - VTC Mobile TV"
+      },
+      { 0x1111 ,  0x1111,
+        "EASTERN SPACE SYSTEMS -  - EASTERN SPACE SYSTEMS"
       },
       { 0x1700 ,  0x1700,
         "Echostar 2A -  - EchoStar Communications"
@@ -650,6 +689,9 @@
       { 0x2038 ,  0x2038,
         "Belgian Digital Terrestrial Television -  - BIPT"
       },
+      { 0x2068 ,  0x2068,
+        "DTT Myanmar -  - Myanma Radio and Television"
+      },
       { 0x209E ,  0x209E,
         "Taiwanese Digital Terrestrial Television -  - Directorate General of Telecommunications"
       },
@@ -680,8 +722,14 @@
       { 0x2114 ,  0x2114,
         "German Digital Terrestrial Television -  - IRT on behalf of the German DVB-T broadcasts "
       },
+      { 0x2120 ,  0x2120,
+        "Ghana DTT -  - Ghana National Communications Authority"
+      },
       { 0x2124 ,  0x2124,
         "Gibraltar Regulatory Authority -  - Gibraltar Regulatory Authority"
+      },
+      { 0x2160 ,  0x2160,
+        "Iceland DTT -  - Vodafone Iceland"
       },
       { 0x2168 ,  0x2168,
         "Digital Terrestrial Network of Indonesia -  - Ministry of Communication and Information Technology of the Republic of Indonesia"
@@ -695,11 +743,20 @@
       { 0x217C ,  0x217C,
         "Italian Digital Terrestrial Television -  - "
       },
+      { 0x2180 ,  0x2180,
+        "DTT Cote D\'Ivoire -  - HACA"
+      },
       { 0x21AC ,  0x21AC,
         "DTT - Latvian Digital Terrestrial Television -  - Electronic Communications Office "
       },
       { 0x21B8 ,  0x21B8,
         "DTT Lithuania -  - Communications Regulatory Authority"
+      },
+      { 0x21CA ,  0x21CA,
+        "Malaysian Technical Standards Forum Bhd (MTFSB) -  - Malaysian Technical Standards Forum Bhd (MTFSB)"
+      },
+      { 0x2204 ,  0x2204,
+        "Communications Regulatory Authority of Namibia (CRAN) -  - Communications Regulatory Authority of Namibia (CRAN)"
       },
       { 0x2210 ,  0x2210,
         "Netherlands Digital Terrestrial Television -  - Nozema  "
@@ -728,6 +785,9 @@
       { 0x22B0 ,  0x22B0,
         "DTT - Serbia JP Emisiona Tehnika i Veze -  - JP Emisiona Tehnika i Veze"
       },
+      { 0x22B2 ,  0x22B2,
+        "DTT Seychelles -  - Seychelles Broadcasting Corporation"
+      },
       { 0x22BE ,  0x22BE,
         "Singapore Digital Terrestrial Television -  - Singapore Broadcasting Authority  "
       },
@@ -754,6 +814,9 @@
       },
       { 0x22F4 ,  0x22F4,
         "Swiss Digital Terrestrial Television -  - OFCOM"
+      },
+      { 0x22FC ,  0x22FC,
+        "Office of National Broadcasting and Telecommunications Commission -  - Office of National Broadcasting and Telecommunications Commission"
       },
       { 0x233A ,  0x233A,
         "UK Digital Terrestrial Television -  - Independent Television Commission "
@@ -834,7 +897,10 @@
         "SMALL CABLE NETWORKS -  - (Small cable network network operators)"
       },
       { 0xF001 ,  0xF001,
-        "Deutsche Telekom -  - Deutsche Telekom AG"
+        "Kabel Deutschland -  - Kabel Deutschland"
+      },
+      { 0xF002 ,  0xF002,
+        "Deutsche Telekom AG -  - Deutsche Telekom AG"
       },
       { 0xF010 ,  0xF010,
         "Telefónica Cable -  - Telefónica Cable SA"
