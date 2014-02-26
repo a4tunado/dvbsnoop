@@ -40,7 +40,7 @@ EN 301 192 update
  - Bugfixes
 
 Revision 1.10  2004/05/24 20:18:17  rasc
-bugfix: AIT descriptor transport_protocol_label (reported by St�phane Est�-Gracias)
+bugfix: AIT descriptor transport_protocol_label (reported by Stéphane Esté-Gracias)
 
 Revision 1.9  2004/04/15 03:38:50  rasc
 new: TransportStream sub-decoding (ts2PES, ts2SEC)  [-tssubdecode]
