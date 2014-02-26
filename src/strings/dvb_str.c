@@ -2468,7 +2468,7 @@ char *dvbstrCountryCode_ID (u_int i)
 	{ 0x019a, 0x019a,  "Korea" },
 	{ 0x019e, 0x019e,  "Kuwait" },
 	{ 0x01a1, 0x01a1,  "Kyrgyz Republic" },
-	{ 0x01a2, 0x01a2,  "Lao People�s Democratic Republic" },
+	{ 0x01a2, 0x01a2,  "Lao People's Democratic Republic" },
 	{ 0x01a6, 0x01a6,  "Lebanon" },
 	{ 0x01aa, 0x01aa,  "Lesotho" },
 	{ 0x01ac, 0x01ac,  "Latvia" },
@@ -3723,9 +3723,8 @@ char *dvbstrTS_MIP_ChannelBandwidth (u_int i)
  $$$ TODO 
 
 ISO/IEC 13818-1:2000/Amd.5:2005 (E):
-  Table 2-62 � MPEG-4_audio_profile_and_level assignment values
+  Table 2-62 - MPEG-4_audio_profile_and_level assignment values
 
-  Table Amd.5-2 � MPEG-2_AAC_additional_information field values
-
+  Table Amd.5-2 - MPEG-2_AAC_additional_information field values
 
 */
