@@ -272,6 +272,8 @@ char *dsmccStrMHP_AIT_DescriptorTAG (u_int i)
      {  0x0E, 0x0E,  "delegated application descriptor" },
      {  0x0F, 0x0F,  "Plug-in descriptor" },
      {  0x10, 0x10,  "Application storage descriptor" },
+     {  0x15, 0x15,  "Simple application location descriptor" },
+     {  0x17, 0x17,  "Simple application boundary descriptor" },
      {  0x11, 0x5E,  "reserved to MHP" },
      {  0x5F, 0x5F,  "private data specifier descriptor" },
      {  0x60, 0x7F,  "reserved to MHP" },
@@ -897,11 +899,21 @@ char *dsmccStr_LLC_SNAP_prot (u_int id)
 char *dsmccStrMHP_application_type (u_int id)
 {
   STR_TABLE  TableIDs[] = {
-	{ 0x0000, 0x0000,   "reserved" },
-	{ 0x0001, 0x0001,   "DVB-J application" },
-	{ 0x0002, 0x0002,   "DVB-HTML application" },
-	{ 0x0003, 0x7FFF,   "subject to registration with DVB" },  // $$$ TODO ??
-      	{  0,0, NULL }
+	{ 0x0000, 0x0000, "reserved" },
+	{ 0x0001, 0x0001, "DVB-J application" },
+	{ 0x0002, 0x0002, "DVB-HTML application" },
+	{ 0x0003, 0x0003, "MediaHighway, Canal+ Technologies" },
+	{ 0x0004, 0x0004, "CLI application, Microsoft Corporation" },
+	{ 0x0005, 0x0005, "MediaHighway Declarative Applications, Canal+ Technologies" },
+	{ 0x0006, 0x0006, "DCAP-J: DCAP Java applications, ATSC/CableLabs" },
+	{ 0x0007, 0x0007, "DCAP-X: DCAP XHTML applications, ATSC/CableLabs" },
+	{ 0x0008, 0x0008, "MHEG, DTG" },
+	{ 0x000A, 0x000A, "OpenTV, OpenTV" },
+	{ 0x0010, 0x0010, "HBBTV, HBBTV Consortium" },
+	{ 0x0011, 0x0011, "OIPF DAE, Open IPTV Forum" },
+	{ 0x0012, 0x0012, "Connected TV HTML, Digital TV Group" },
+	{ 0x0013, 0x7FFF, "subject to registration with DVB" },  // $$$ TODO ??
+    {  0,0, NULL }
   };
 
   return findTableID (TableIDs, id);
