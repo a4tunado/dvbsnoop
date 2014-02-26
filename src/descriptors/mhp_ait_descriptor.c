@@ -40,7 +40,7 @@ EN 301 192 update
  - Bugfixes
 
 Revision 1.10  2004/05/24 20:18:17  rasc
-bugfix: AIT descriptor transport_protocol_label (reported by Stéphane Esté-Gracias)
+bugfix: AIT descriptor transport_protocol_label (reported by Stï¿½phane Estï¿½-Gracias)
 
 Revision 1.9  2004/04/15 03:38:50  rasc
 new: TransportStream sub-decoding (ts2PES, ts2SEC)  [-tssubdecode]
@@ -150,6 +150,9 @@ int  descriptorMHP_AIT (u_char *b)
      case 0x0F:  descriptorMHP_AIT_plug_in (b); break;
      case 0x10:  descriptorMHP_AIT_application_storage (b); break;
      case 0x11:  descriptorMHP_AIT_ip_signalling (b); break;
+
+     case 0x15:  descriptorMHP_AIT_hbbtv_application_location (b); break;
+     case 0x17:  descriptorMHP_AIT_hbbtv_application_boundary (b); break;
 
      case 0x5F:  descriptorDVB_PrivateDataSpecifier (b); break;
 
@@ -781,10 +784,24 @@ void descriptorMHP_AIT_ip_signalling (u_char *b)
 }
 
 
-
-
-
-
-
-
-
+void descriptorMHP_AIT_hbbtv_application_location (u_char *b)
+{
+	  int len = b[1];
+	  print_text_UTF8 (4, "location: ", b+2, len);
+}
+void descriptorMHP_AIT_hbbtv_application_boundary (u_char *b)
+{
+	  int len = b[1];
+	  int nb  = b[2];
+	  outBit_Sx_NL (4,"number of boundaries: ", b, 16, 8);
+	  b+=3;
+	  int len2;
+	  indent(+1);
+	  while(nb) {
+		  len2 = b[0];
+		  print_text_UTF8 (4, "boundary url: ", b+1, len2);
+		  b+=len2 + 1;
+		  nb--;
+	  }
+	  indent(-1);
+}

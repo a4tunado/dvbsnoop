@@ -73,6 +73,8 @@ void descriptorMHP_AIT_plug_in (u_char *b);
 void descriptorMHP_AIT_application_storage (u_char *b);
 void descriptorMHP_AIT_ip_signalling (u_char *b);
 
+void descriptorMHP_AIT_hbbtv_application_location (u_char *b);
+void descriptorMHP_AIT_hbbtv_application_boundary (u_char *b);
 
 
 #endif
